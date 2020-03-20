@@ -14,35 +14,141 @@ GO
 --********************************************************************--
 -- Drop Foreign Keys Constraints
 --********************************************************************--
-Alter Table DWStudentEnrollments.dbo.FactEnrollments Drop Constraint IF EXISTS FK_FactEnrollments_DimStudents
-Alter Table DWStudentEnrollments.dbo.FactEnrollments Drop Constraint IF EXISTS FK_FactEnrollments_DimClasses
-Alter Table DWStudentEnrollments.dbo.FactEnrollments Drop Constraint IF EXISTS FK_FactEnrollments_DimDates
+Create or Alter Procedure dbo.pETLDropFKs
+As
+ Begin
+	Alter Table DWStudentEnrollments.dbo.FactEnrollments Drop Constraint IF EXISTS FK_FactEnrollments_DimStudents
+	Alter Table DWStudentEnrollments.dbo.FactEnrollments Drop Constraint IF EXISTS FK_FactEnrollments_DimClasses
+	Alter Table DWStudentEnrollments.dbo.FactEnrollments Drop Constraint IF EXISTS FK_FactEnrollments_DimDates
+END
 GO
 
 --********************************************************************--
 -- Clear all tables and reset their Identity Auto Number 
 --********************************************************************--
-TRUNCATE TABLE DWStudentEnrollments.dbo.DimClasses
-TRUNCATE TABLE DWStudentEnrollments.dbo.DimDates
-TRUNCATE TABLE DWStudentEnrollments.dbo.DimStudents
-TRUNCATE TABLE DWStudentEnrollments.dbo.FactEnrollments
+Create or Alter Procedure dbo.pETLTruncateTables
+As
+ Begin
+	TRUNCATE TABLE DWStudentEnrollments.dbo.DimClasses
+	TRUNCATE TABLE DWStudentEnrollments.dbo.DimDates
+	TRUNCATE TABLE DWStudentEnrollments.dbo.DimStudents
+	TRUNCATE TABLE DWStudentEnrollments.dbo.FactEnrollments
+ END
 GO
 
 --********************************************************************--
 -- Fill Dimension Tables
 --********************************************************************--
 
+/****** [dbo].[DimDates] ******/
+Create or Alter Procedure dbo.pETLFillDimDates
+As
+ Begin
+-- Create variables to hold the start and end date
+DECLARE @StartDate datetime = '01/01/2020'
+DECLARE @EndDate datetime = '01/01/2050' 
+
+-- Use a while loop to add dates to the table
+DECLARE @DateInProcess datetime
+SET @DateInProcess = @StartDate
+
+WHILE @DateInProcess <= @EndDate
+ BEGIN
+ -- Add a row into the date dimension table for this date
+ INSERT INTO DWStudentEnrollments.dbo.DimDates
+ ( [DateKey], [Datetime],[Date], [DateName], [DateDayKey], [DateDayName], [DateMonthKey], [DateMonthName], [DateQuarterKey], [DateQuarterName], [DateQuarter], [DateYearMonthKey], [DateYearMonthName], [DateYearKey], [DateYearName] )
+ VALUES (
+    Cast(Convert(nvarchar(50), @DateInProcess , 112) as int) -- [DateKey]
+  , @DateInProcess --[Date]
+  , @DateInProcess --[Date]
+  , CAST(DateName( month, @DateInProcess ) AS NVARCHAR(50)) + ' ' + CAST(DAY( @DateInProcess) AS NVARCHAR(50)) +', ' + Cast(Year(@DateInProcess) as nVarchar(50)) -- datename
+  , DAY( @DateInProcess) --DATE_DAY_KEY
+  , DateName(weekday, @DateInProcess ) -- [DateDayNumber) 
+  , Month( @DateInProcess ) -- [Month]   
+  , DateName( month, @DateInProcess ) -- [MonthName]
+  , DateName( quarter, @DateInProcess ) -- DATE_QUARTER_KEY
+  , 'Q' + DateName( quarter, @DateInProcess ) + ' - ' + Cast( Year(@DateInProcess) as nVarchar(50) )  -- DATE_QUARTER_NAME
+  , 'Q' + DateName( quarter, @DateInProcess ) -- DATE_QUARTER
+  , CASE 
+		WHEN LEN(MONTH(@DateInProcess )) = 1 THEN CONCAT(Year(@DateInProcess), CONCAT('0', MONTH(@DateInProcess)))
+		WHEN LEN(MONTH(@DateInProcess )) = 2 THEN CONCAT(Year(@DateInProcess), Month(@DateInProcess))
+	end -- DATE_YEAR_MONTH_KEY
+  , DateName( month, @DateInProcess ) + ' ' + Cast(Year(@DateInProcess ) as nVarchar(50)) -- DATE_YEAR_MONTH_NAME
+  , Year( @DateInProcess) -- DATE_YEAR_KEY
+  , Cast(Year(@DateInProcess) as nVarchar(50)) -- YEAR
+  )  
+ -- Add a day and loop again
+ SET @DateInProcess = DateAdd(d, 1, @DateInProcess)
+ END
+ 
+-- 2e) Add additional lookup values to DimDates
+INSERT INTO DWStudentEnrollments.dbo.DimDates
+  ([DateKey],
+   [Datetime],
+   [Date], 
+   [DateName], 
+   [DateDayKey], 
+   [DateDayName], 
+   [DateMonthKey], 
+   [DateMonthName], 
+   [DateQuarterKey], 
+   [DateQuarterName], 
+   [DateQuarter], 
+   [DateYearMonthKey], 
+   [DateYearMonthName], 
+   [DateYearKey], 
+   [DateYearName] )
+SELECT
+    [DateKey] = -1
+  ,	[Datetime] = '1/1/1900'
+  , [Date] = '1/1/1900'
+  , [DateName] = Cast('Unknown Date' as nVarchar(100) )
+  , [DateDayKey] = -1
+  , [DateDayName] = Cast('Unknown Day' as nVarchar(50) )
+  , [DateMonthKey] = -1
+  , [DateMonthName] = Cast('Unknown Month' as nVarchar(50) )
+  , [DateQuarterKey] =  -1
+  , [DateQuarterName] = Cast('Unknown Quarter' as nVarchar(50) )
+  , [DateQuarter] = Cast('Unknown Quarter' as nVarchar(50) )
+  , [DateYearMonthKey] = -1
+  , [DateYearMonthName] = Cast('Unknown Year Month' as nVarchar(50) )
+  , [DateYearKey] = -1
+  , [DateYearName] = Cast('Unknown Year' as nVarchar(50) )
+  UNION
+SELECT
+    [DateKey] = -2
+  ,	[Datetime] = '1/1/1900'
+  , [Date] = '1/1/1900'
+  , [DateName] = Cast('Corrupt Date' as nVarchar(50) )
+  , [DateDayKey] = -2
+  , [DateDayName] = Cast('Corrupt Day' as nVarchar(50) )
+  , [DateMonthKey] = -2
+  , [DateMonthName] = Cast('Corrupt Month' as nVarchar(50) )
+  , [DateQuarterKey] =  -2
+  , [DateQuarterName] = Cast('Corrupt Quarter' as nVarchar(50) )
+  , [DateQuarter] = Cast('Corrupt Quarter' as nVarchar(50) )
+  , [DateYearMonthKey] = -2
+  , [DateYearMonthName] = Cast('Unknown Year Month' as nVarchar(50) )
+  , [DateYearKey] = -2
+  , [DateYearName] = Cast('Corrupt Year' as nVarchar(50) )
+END
+GO
+
 /****** [dbo].[DimStudents] ******/
 
+Create or Alter Procedure dbo.pETLFillDimStudents
+AS
+ BEGIN
 -- Implements Slowly Changing Dimension Type 1 
 MERGE INTO DWStudentEnrollments.dbo.DimStudents AS t -- t is for target table
 USING
 (
 SELECT 
 		 CAST(StudentID AS int) AS StudentID
-		,CAST(StudentFirstName AS NVARCHAR(100)) AS StudentFirstName
-		,CAST(StudentLastName AS NVARCHAR(100)) AS StudentLastName
-		,CAST(StudentEmail AS NVARCHAR(100)) AS StudentEmail
+		,CAST((StudentFirstName + ' ' + StudentLastName) AS NVARCHAR(400)) AS StudentFullName
+		,CAST(StudentFirstName AS NVARCHAR(200)) AS StudentFirstName
+		,CAST(StudentLastName AS NVARCHAR(200)) AS StudentLastName
+		,CAST(StudentEmail AS NVARCHAR(200)) AS StudentEmail
 FROM OPENROWSET('SQLNCLI11'
 ,'Server=continuumsql.westus2.cloudapp.azure.com;uid=BICert;pwd=BICert;database=StudentEnrollments;' 
 , 'SELECT * From dbo.Students'
@@ -51,28 +157,28 @@ FROM OPENROWSET('SQLNCLI11'
 	ON t.StudentID = s.StudentID  
 
 WHEN NOT MATCHED THEN -- The StudentID in the source table is not found in the target table; Add new row
-			INSERT (StudentId, StudentFirstName, StudentLastName, StudentEmail, StartDate, EndDate, IsCurrent)
-			VALUES(s.StudentId, s.StudentFirstName, s.StudentLastName, s.StudentEmail, GETDATE(), null, 'Y')
+			INSERT (StudentId, StudentFullName, StudentFirstName, StudentLastName, StudentEmail, StartDate, EndDate, IsCurrent)
+			VALUES(s.StudentId, s.StudentFullName, s.StudentFirstName, s.StudentLastName, s.StudentEmail, GETDATE(), null, 'Y')
   
 WHEN MATCHED -- The StudentID matches between source and target table; SCD 1 - update the values below if the fields below don't match 
 	AND (s.StudentEmail <> t.StudentEmail)
 THEN 
 	UPDATE
 	SET t.StudentEmail = s.StudentEmail;
-GO
 
 -- Implements Slowly Changing Dimension Type 2
-INSERT INTO DWStudentEnrollments.dbo.DimStudents (StudentId, StudentFirstName, StudentLastName, StudentEmail, StartDate, EndDate, IsCurrent)
-SELECT StudentId, StudentFirstName, StudentLastName, StudentEmail, StartDate, EndDate, IsCurrent
+INSERT INTO DWStudentEnrollments.dbo.DimStudents (StudentId, StudentFullName, StudentFirstName, StudentLastName, StudentEmail, StartDate, EndDate, IsCurrent)
+SELECT StudentID, StudentFullName, StudentFirstName, StudentLastName, StudentEmail, StartDate, EndDate, IsCurrent
 FROM
 (MERGE INTO DWStudentEnrollments.dbo.DimStudents AS t -- t is for target table
 USING
 (
 SELECT 
-		 CAST(StudentID AS int) AS StudentID
-		,CAST(StudentFirstName AS NVARCHAR(100)) AS StudentFirstName
-		,CAST(StudentLastName AS NVARCHAR(100)) AS StudentLastName
-		,CAST(StudentEmail AS NVARCHAR(100)) AS StudentEmail
+		CAST(StudentID AS int) AS StudentID
+		,CAST((StudentFirstName + ' ' + StudentLastName) AS NVARCHAR(400)) AS StudentFullName
+		,CAST(StudentFirstName AS NVARCHAR(200)) AS StudentFirstName
+		,CAST(StudentLastName AS NVARCHAR(200)) AS StudentLastName
+		,CAST(StudentEmail AS NVARCHAR(200)) AS StudentEmail
 FROM OPENROWSET('SQLNCLI11'
 ,'Server=continuumsql.westus2.cloudapp.azure.com;uid=BICert;pwd=BICert;database=StudentEnrollments;' 
 , 'SELECT * From dbo.Students'
@@ -85,36 +191,39 @@ WHEN NOT MATCHED BY SOURCE -- The StudentID in the Target table is not in the So
 		DELETE
 
 WHEN MATCHED AND t.IsCurrent = 'Y' -- If the current row IsCurrent value is 'Y' and the fields below do not match between the source and target table then end date the row and change the IsCurrent value to 'N'
-	AND (ISNULL(t.StudentFirstName, '') != ISNULL(s.StudentFirstName, '') 
+	AND (ISNULL(t.StudentFullName, '') != ISNULL(s.StudentFullName, '') 
+	OR ISNULL(t.StudentFirstName, '') != ISNULL(s.StudentFirstName, '') 
 	OR ISNULL(t.StudentLastName, '') != ISNULL(s.StudentLastName, ''))
 THEN
 	UPDATE 
 	SET t.IsCurrent= 'N', t.EndDate = GETDATE()
-	OUTPUT $Action Action_Taken, s.StudentID, s.StudentFirstName, s.StudentLastName, s.StudentEmail, GETDATE() AS StartDate, NULL as EndDate, 'Y' as IsCurrent
+	OUTPUT $Action Action_Taken, s.StudentID, s.StudentFullName, s.StudentFirstName, s.StudentLastName, s.StudentEmail, GETDATE() AS StartDate, NULL as EndDate, 'Y' as IsCurrent
 ) AS MERGE_OUT
 WHERE MERGE_OUT.Action_Taken = 'UPDATE';
+END
 GO
 		
 
-
 /****** [dbo].[DimClasses] ******/
-
+Create or Alter Procedure dbo.pETLFillDimClasses
+As
+ Begin
 -- Implements Slowly Changing Dimension Type 1 
 MERGE INTO DWStudentEnrollments.dbo.DimClasses AS t -- t is for target table
 USING
 (
 SELECT 
 	 CAST(ClassID AS int) AS ClassID
-	,CAST(ClassName AS nvarchar(100)) AS ClassName
-	,CAST(ClassDepartmentID AS int) AS ClassDepartmentID
-	,CAST(ClassDepartmentName AS nvarchar(100)) AS ClassDepartmentName
-	,CAST(ClassStartDate AS datetime) AS ClassStartDate
-	,CAST(ClassEndDate AS datetime) AS ClassEndDate
+	,CAST(ClassName AS nvarchar(200)) AS ClassName
+	,CAST(ClassStartDate AS date) AS ClassStartDate
+	,CAST(ClassEndDate AS date) AS ClassEndDate
 	,CAST(ClassPriceCurrent AS decimal(18,2)) AS ClassPriceCurrent
-	,CAST(classenrollmentmax as nvarchar(100)) AS ClassEnrollmentMax
-	,CAST(classroomid AS int) AS ClassRoomID
-	,CAST(classroomname AS nvarchar(100)) AS ClassroomName
+	,CAST(classenrollmentmax as int) AS ClassEnrollmentMax
+	,CAST(classroomid AS int) AS ClassroomID
+	,CAST(classroomname AS nvarchar(200)) AS ClassroomName
 	,CAST(classroomsizemax AS int) AS ClassroomSizeMax
+	,CAST(ClassDepartmentID AS int) AS ClassDepartmentID
+	,CAST(ClassDepartmentName AS nvarchar(200)) AS ClassDepartmentName
 FROM OPENROWSET('SQLNCLI11'
 ,'Server=continuumsql.westus2.cloudapp.azure.com;uid=BICert;pwd=BICert;database=StudentEnrollments;' 
 , 'SELECT  
@@ -139,8 +248,8 @@ FROM OPENROWSET('SQLNCLI11'
 	ON t.ClassID = s.ClassID
 
 WHEN NOT MATCHED THEN -- The ClassID in the source table is not found in the target table; Add new row
-			INSERT (ClassID, ClassName, ClassDepartmentID, ClassDepartmentName, ClassStartDate, ClassEndDate, ClassPriceCurrent, ClassEnrollmentMax, ClassroomID, ClassroomName, ClassroomSizeMax, StartDate, EndDate, IsCurrent)
-			VALUES(s.ClassID, s.ClassName, s.ClassDepartmentID, s.ClassDepartmentName, s.ClassStartDate, s.ClassEndDate, s.ClassPriceCurrent, s.ClassEnrollmentMax, s.ClassroomID, s.ClassroomName, s.ClassroomSizeMax, GETDATE(), null, 'Y')
+			INSERT (ClassID, ClassName, ClassStartDate, ClassEndDate, ClassPriceCurrent, ClassEnrollmentMax, ClassroomID, ClassroomName, ClassroomSizeMax, ClassDepartmentID, ClassDepartmentName, StartDate, EndDate, IsCurrent)
+			VALUES(s.ClassID, s.ClassName, s.ClassStartDate, s.ClassEndDate, s.ClassPriceCurrent, s.ClassEnrollmentMax, s.ClassroomID, s.ClassroomName, s.ClassroomSizeMax,  s.ClassDepartmentID, s.ClassDepartmentName, GETDATE(), null, 'Y')
   
 WHEN MATCHED -- The ClassID matches between source and target table; SCD 1 - update the values below if the fields below don't match 
 	AND (s.ClassStartDate <> t.ClassStartDate
@@ -155,27 +264,26 @@ THEN
 	,t.ClassPriceCurrent = s.ClassPriceCurrent
 	,t.ClassEnrollmentMax = s.ClassEnrollmentMax
 	,t.ClassroomSizeMax = s.ClassroomSizeMax;
-GO
 
 -- Implements Slowly Changing Dimension Type 2
-INSERT INTO DWStudentEnrollments.dbo.DimClasses (ClassID, ClassName, ClassDepartmentID, ClassDepartmentName, ClassStartDate, ClassEndDate, ClassPriceCurrent, ClassEnrollmentMax, ClassroomID, ClassroomName, ClassroomSizeMax, StartDate, EndDate, IsCurrent)
-SELECT ClassID, ClassName, ClassDepartmentID, ClassDepartmentName, ClassStartDate, ClassEndDate, ClassPriceCurrent, ClassEnrollmentMax, ClassroomID, ClassroomName, ClassroomSizeMax, StartDate, EndDate, IsCurrent
+INSERT INTO DWStudentEnrollments.dbo.DimClasses (ClassID, ClassName, ClassStartDate, ClassEndDate, ClassPriceCurrent, ClassEnrollmentMax, ClassroomID, ClassroomName, ClassroomSizeMax, ClassDepartmentID, ClassDepartmentName, StartDate, EndDate, IsCurrent)
+SELECT ClassID, ClassName, ClassStartDate, ClassEndDate, ClassPriceCurrent, ClassEnrollmentMax, ClassroomID, ClassroomName, ClassroomSizeMax, ClassDepartmentID, ClassDepartmentName, StartDate, EndDate, IsCurrent
 FROM
 (MERGE INTO DWStudentEnrollments.dbo.DimClasses AS t -- t is for target table
 USING
 (
 SELECT 
 	 CAST(ClassID AS int) AS ClassID
-	,CAST(ClassName AS nvarchar(100)) AS ClassName
-	,CAST(ClassDepartmentID AS int) AS ClassDepartmentID
-	,CAST(ClassDepartmentName AS nvarchar(100)) AS ClassDepartmentName
-	,CAST(ClassStartDate AS datetime) AS ClassStartDate
-	,CAST(ClassEndDate AS datetime) AS ClassEndDate
+	,CAST(ClassName AS nvarchar(200)) AS ClassName
+	,CAST(ClassStartDate AS date) AS ClassStartDate
+	,CAST(ClassEndDate AS date) AS ClassEndDate
 	,CAST(ClassPriceCurrent AS decimal(18,2)) AS ClassPriceCurrent
-	,CAST(classenrollmentmax as nvarchar(100)) AS ClassEnrollmentMax
-	,CAST(classroomid AS int) AS ClassRoomID
-	,CAST(classroomname AS nvarchar(100)) AS ClassroomName
+	,CAST(classenrollmentmax as int) AS ClassEnrollmentMax
+	,CAST(classroomid AS int) AS ClassroomID
+	,CAST(classroomname AS nvarchar(200)) AS ClassroomName
 	,CAST(classroomsizemax AS int) AS ClassroomSizeMax
+	,CAST(ClassDepartmentID AS int) AS ClassDepartmentID
+	,CAST(ClassDepartmentName AS nvarchar(200)) AS ClassDepartmentName
 FROM OPENROWSET('SQLNCLI11'
 ,'Server=continuumsql.westus2.cloudapp.azure.com;uid=BICert;pwd=BICert;database=StudentEnrollments;' 
 , 'SELECT  
@@ -210,99 +318,10 @@ WHEN MATCHED AND t.IsCurrent = 'Y' -- If the current row value is 'Y' and the fi
 THEN
 	UPDATE 
 	SET t.IsCurrent= 'N', t.EndDate = GETDATE()
-	OUTPUT $Action Action_Taken, s.ClassID, s.ClassName, s.ClassDepartmentID, s.ClassDepartmentName, s.ClassStartDate, s.ClassEndDate, s.ClassPriceCurrent, s.ClassEnrollmentMax, s.ClassroomID, s.ClassroomName, s.ClassroomSizeMax, GETDATE() AS StartDate, NULL as EndDate, 'Y' as IsCurrent
+	OUTPUT $Action Action_Taken, s.ClassID, s.ClassName, s.ClassStartDate, s.ClassEndDate, s.ClassPriceCurrent, s.ClassEnrollmentMax, s.ClassroomID, s.ClassroomName, s.ClassroomSizeMax, s.ClassDepartmentID, s.ClassDepartmentName, GETDATE() AS StartDate, NULL as EndDate, 'Y' as IsCurrent
 ) AS MERGE_OUT
 WHERE MERGE_OUT.Action_Taken = 'UPDATE';
-GO
-
-
-/****** [dbo].[DimDates] ******/
-
--- Create variables to hold the start and end date
-DECLARE @StartDate date = '01/01/2020'
-DECLARE @EndDate date = '01/01/2050' 
-
--- Use a while loop to add dates to the table
-DECLARE @DateInProcess date
-SET @DateInProcess = @StartDate
-
-WHILE @DateInProcess <= @EndDate
- BEGIN
- -- Add a row into the date dimension table for this date
- INSERT INTO DWStudentEnrollments.dbo.DimDates
- ( [DateKey], [Date], [DateName], [DateDayKey], [DateDayName], [DateMonthKey], [DateMonthName], [DateQuarterKey], [DateQuarterName], [DateQuarter], [DateYearMonthKey], [DateYearMonthName], [DateYearKey], [DateYearName] )
- VALUES (
-    Cast(Convert(nvarchar(50), @DateInProcess , 112) as int) -- [DateKey]
-  , @DateInProcess --[Date]
-  , CAST(DateName( month, @DateInProcess ) AS NVARCHAR(50)) + ' ' + CAST(DAY( @DateInProcess) AS NVARCHAR(50)) +', ' + Cast(Year(@DateInProcess) as nVarchar(50)) -- datename
-  , DAY( @DateInProcess) --DATE_DAY_KEY
-  , DateName(weekday, @DateInProcess ) -- [DateDayNumber) 
-  , Month( @DateInProcess ) -- [Month]   
-  , DateName( month, @DateInProcess ) -- [MonthName]
-  , DateName( quarter, @DateInProcess ) -- DATE_QUARTER_KEY
-  , 'Q' + DateName( quarter, @DateInProcess ) + ' - ' + Cast( Year(@DateInProcess) as nVarchar(50) )  -- DATE_QUARTER_NAME
-  , 'Q' + DateName( quarter, @DateInProcess ) -- DATE_QUARTER
-  , CASE 
-		WHEN LEN(MONTH(@DateInProcess )) = 1 THEN CONCAT(Year(@DateInProcess), CONCAT('0', MONTH(@DateInProcess)))
-		WHEN LEN(MONTH(@DateInProcess )) = 2 THEN CONCAT(Year(@DateInProcess), Month(@DateInProcess))
-	end -- DATE_YEAR_MONTH_KEY
-  , DateName( month, @DateInProcess ) + ' ' + Cast(Year(@DateInProcess ) as nVarchar(50)) -- DATE_YEAR_MONTH_NAME
-  , Year( @DateInProcess) -- DATE_YEAR_KEY
-  , Cast(Year(@DateInProcess) as nVarchar(50)) -- YEAR
-  )  
- -- Add a day and loop again
- SET @DateInProcess = DateAdd(d, 1, @DateInProcess)
- END
-
- 
--- 2e) Add additional lookup values to DimDates
-INSERT INTO DWStudentEnrollments.dbo.DimDates
-  ([DateKey],
-   [Date], 
-   [DateName], 
-   [DateDayKey], 
-   [DateDayName], 
-   [DateMonthKey], 
-   [DateMonthName], 
-   [DateQuarterKey], 
-   [DateQuarterName], 
-   [DateQuarter], 
-   [DateYearMonthKey], 
-   [DateYearMonthName], 
-   [DateYearKey], 
-   [DateYearName] )
-SELECT
-    [DateKey] = -1
-  , [Date] = '1/1/1900'
-  , [DateName] = Cast('Unknown Date' as nVarchar(100) )
-  , [DateDayKey] = -1
-  , [DateDayName] = Cast('Unknown Day' as nVarchar(50) )
-  , [DateMonthKey] = -1
-  , [DateMonthName] = Cast('Unknown Month' as nVarchar(50) )
-  , [DateQuarterKey] =  -1
-  , [DateQuarterName] = Cast('Unknown Quarter' as nVarchar(50) )
-  , [DateQuarter] = Cast('Unknown Quarter' as nVarchar(50) )
-  , [DateYearMonthKey] = -1
-  , [DateYearMonthName] = Cast('Unknown Year Month' as nVarchar(50) )
-  , [DateYearKey] = -1
-  , [DateYearName] = Cast('Unknown Year' as nVarchar(50) )
-  UNION
-SELECT
-    [DateKey] = -2
-  , [Date] = '1/1/1900'
-  , [DateName] = Cast('Corrupt Date' as nVarchar(50) )
-  , [DateDayKey] = -2
-  , [DateDayName] = Cast('Corrupt Day' as nVarchar(50) )
-  , [DateMonthKey] = -2
-  , [DateMonthName] = Cast('Corrupt Month' as nVarchar(50) )
-  , [DateQuarterKey] =  -2
-  , [DateQuarterName] = Cast('Corrupt Quarter' as nVarchar(50) )
-  , [DateQuarter] = Cast('Corrupt Quarter' as nVarchar(50) )
-  , [DateYearMonthKey] = -2
-  , [DateYearMonthName] = Cast('Unknown Year Month' as nVarchar(50) )
-  , [DateYearKey] = -2
-  , [DateYearName] = Cast('Corrupt Year' as nVarchar(50) )
-
+END
 GO
 
 --********************************************************************--
@@ -313,6 +332,9 @@ GO
 
 --- Insert only new records into fact table
 --- Fact table Grain: Enrollments by day, student, and class
+Create or Alter Procedure dbo.pETLFillFactEnrollments
+As
+ Begin
 MERGE INTO DWStudentEnrollments.dbo.FactEnrollments AS t -- t is for target table
 USING
 (
@@ -347,6 +369,7 @@ WHEN NOT MATCHED THEN -- The EnrollmentID in the source table is not found in th
 		INSERT (EnrollmentID, EnrollmentDateKey, StudentKey, ClassKey, ActualEnrollmentPrice)
 		VALUES(s.EnrollmentID, s.EnrollmentDateKey, s.StudentKey, s.ClassKey, s.ActualEnrollmentPrice)
 ;
+END
 GO
 
 /*
@@ -380,14 +403,18 @@ GO
 --********************************************************************--
 -- Replace Foreign Keys Constraints
 --********************************************************************--
-ALTER TABLE DWStudentEnrollments.dbo.FactEnrollments WITH CHECK ADD CONSTRAINT FK_FactEnrollments_DimStudents
-FOREIGN KEY  (StudentKey) REFERENCES dbo.DimStudents (StudentKey)
+CREATE OR ALTER PROCEDURE dbo.pETLReplaceFKs
+AS
+	BEGIN
+		ALTER TABLE DWStudentEnrollments.dbo.FactEnrollments WITH CHECK ADD CONSTRAINT FK_FactEnrollments_DimStudents
+		FOREIGN KEY  (StudentKey) REFERENCES dbo.DimStudents (StudentKey)
 
-ALTER TABLE DWStudentEnrollments.dbo.FactEnrollments WITH CHECK ADD CONSTRAINT FK_FactEnrollments_DimClasses
-FOREIGN KEY  (ClassKey) REFERENCES dbo.DimClasses (ClassKey)
+		ALTER TABLE DWStudentEnrollments.dbo.FactEnrollments WITH CHECK ADD CONSTRAINT FK_FactEnrollments_DimClasses
+		FOREIGN KEY  (ClassKey) REFERENCES dbo.DimClasses (ClassKey)
 
-ALTER TABLE DWStudentEnrollments.dbo.FactEnrollments WITH CHECK ADD CONSTRAINT FK_FactEnrollments_DimDates
-FOREIGN KEY  (EnrollmentDateKey) REFERENCES dbo.DimDates (DateKey)
+		ALTER TABLE DWStudentEnrollments.dbo.FactEnrollments WITH CHECK ADD CONSTRAINT FK_FactEnrollments_DimDates
+		FOREIGN KEY  (EnrollmentDateKey) REFERENCES dbo.DimDates (DateKey)
+	END
 GO
 
 --********************************************************************--
@@ -399,6 +426,17 @@ Select Name, xType, crDate from SysObjects
 Where xType in ('u', 'PK', 'F')
 Order By xType Desc, Name
 
+Exec pETLDropFKs;
+Exec pETLTruncateTables;
+Exec pETLFillDimClasses;
+Exec pETLFillDimDates;
+Exec pETLFillDimStudents;
+Exec pETLFillFactEnrollments;
+Exec pETLReplaceFKs;
+Select * From DimDates;
+Select * From DimClasses;
+Select * From DimStudents
+Select * From FactEnrollments;
 
 
 

@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="17"
-  DTS:VersionGUID="{E2FBBFE7-1B74-46E6-8B3C-03335E0D180A}">
+  DTS:VersionBuild="23"
+  DTS:VersionGUID="{15D9184C-21F4-4498-9CFE-6993616881C3}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -53,7 +53,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{B8ABE6D2-C4D9-4833-B222-2D6444CF36BA}"
-              SQLTask:SqlStatementSource="ALTER TABLE DWStudentEnrollments.dbo.FactEnrollments WITH CHECK ADD CONSTRAINT FK_FactEnrollments_DimStudents&#xA;FOREIGN KEY  (StudentKey) REFERENCES dbo.DimStudents (StudentKey)&#xA;&#xA;ALTER TABLE DWStudentEnrollments.dbo.FactEnrollments WITH CHECK ADD CONSTRAINT FK_FactEnrollments_DimClasses&#xA;FOREIGN KEY  (ClassKey) REFERENCES dbo.DimClasses (ClassKey)&#xA;&#xA;ALTER TABLE DWStudentEnrollments.dbo.FactEnrollments WITH CHECK ADD CONSTRAINT FK_FactEnrollments_DimDates&#xA;FOREIGN KEY  (EnrollmentDateKey) REFERENCES dbo.DimDates (DateKey)" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="EXEC DWStudentEnrollments.dbo.pETLReplaceFKs" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -82,7 +82,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{B8ABE6D2-C4D9-4833-B222-2D6444CF36BA}"
-              SQLTask:SqlStatementSource="&#xA;-- Implements Slowly Changing Dimension Type 1 &#xA;MERGE INTO DWStudentEnrollments.dbo.DimClasses AS t -- t is for target table&#xA;USING&#xA;(&#xA;SELECT &#xA;&#x9; CAST(ClassID AS int) AS ClassID&#xA;&#x9;,CAST(ClassName AS nvarchar(100)) AS ClassName&#xA;&#x9;,CAST(ClassDepartmentID AS int) AS ClassDepartmentID&#xA;&#x9;,CAST(ClassDepartmentName AS nvarchar(100)) AS ClassDepartmentName&#xA;&#x9;,CAST(ClassStartDate AS datetime) AS ClassStartDate&#xA;&#x9;,CAST(ClassEndDate AS datetime) AS ClassEndDate&#xA;&#x9;,CAST(ClassPriceCurrent AS decimal(18,2)) AS ClassPriceCurrent&#xA;&#x9;,CAST(classenrollmentmax as nvarchar(100)) AS ClassEnrollmentMax&#xA;&#x9;,CAST(classroomid AS int) AS ClassRoomID&#xA;&#x9;,CAST(classroomname AS nvarchar(100)) AS ClassroomName&#xA;&#x9;,CAST(classroomsizemax AS int) AS ClassroomSizeMax&#xA;FROM OPENROWSET('SQLNCLI11'&#xA;,'Server=continuumsql.westus2.cloudapp.azure.com;uid=BICert;pwd=BICert;database=StudentEnrollments;' &#xA;, 'SELECT  &#xA;&#x9;&#x9;c.classid&#xA;&#x9;&#x9;,c.classname&#xA;&#x9;&#x9;,d.departmentid AS classdepartmentid&#xA;&#x9;&#x9;,d.departmentname AS classdepartmentname&#xA;&#x9;&#x9;,c.classstartdate&#xA;&#x9;&#x9;,c.classenddate&#xA;&#x9;&#x9;,c.currentclassprice AS classpricecurrent&#xA;&#x9;&#x9;,c.maxclassenrollment AS classenrollmentmax&#xA;&#x9;&#x9;,cl.classroomid&#xA;&#x9;&#x9;,cl.classroomname&#xA;&#x9;&#x9;,cl.maxclasssize AS classroomsizemax&#xA;&#x9;From dbo.Classes c&#xA;&#x9;INNER JOIN dbo.Departments d&#xA;&#x9;&#x9;ON d.departmentid = c.departmentid&#xA;&#x9;INNER JOIN dbo.ClassRooms cl&#xA;&#x9;&#x9;ON cl.classroomid = c.classroomid'&#xA;) AS s1&#xA;&#x9;) AS s-- s is for source table&#xA;&#x9;ON t.ClassID = s.ClassID&#xA;&#xA;WHEN NOT MATCHED THEN -- The ClassID in the source table is not found in the target table; Add new row&#xA;&#x9;&#x9;&#x9;INSERT (ClassID, ClassName, ClassDepartmentID, ClassDepartmentName, ClassStartDate, ClassEndDate, ClassPriceCurrent, ClassEnrollmentMax, ClassroomID, ClassroomName, ClassroomSizeMax, StartDate, EndDate, IsCurrent)&#xA;&#x9;&#x9;&#x9;VALUES(s.ClassID, s.ClassName, s.ClassDepartmentID, s.ClassDepartmentName, s.ClassStartDate, s.ClassEndDate, s.ClassPriceCurrent, s.ClassEnrollmentMax, s.ClassroomID, s.ClassroomName, s.ClassroomSizeMax, GETDATE(), null, 'Y')&#xA;  &#xA;WHEN MATCHED -- The ClassID matches between source and target table; SCD 1 - update the values below if the fields below don't match &#xA;&#x9;AND (s.ClassStartDate &lt;&gt; t.ClassStartDate&#xA;&#x9;OR s.ClassEndDate &lt;&gt; t.ClassEndDate&#xA;&#x9;OR s.ClassPriceCurrent &lt;&gt; t.ClassPriceCurrent&#xA;&#x9;OR s.ClassEnrollmentMax &lt;&gt; t.ClassEnrollmentMax&#xA;&#x9;OR s.ClassroomSizeMax &lt;&gt; t.ClassroomSizeMax)&#xA;THEN &#xA;&#x9;UPDATE&#xA;&#x9;SET t.ClassStartDate = s.ClassStartDate&#xA;&#x9;,t.ClassEndDate = s.ClassEndDate&#xA;&#x9;,t.ClassPriceCurrent = s.ClassPriceCurrent&#xA;&#x9;,t.ClassEnrollmentMax = s.ClassEnrollmentMax&#xA;&#x9;,t.ClassroomSizeMax = s.ClassroomSizeMax;&#xA;GO&#xA;&#xA;-- Implements Slowly Changing Dimension Type 2&#xA;INSERT INTO DWStudentEnrollments.dbo.DimClasses (ClassID, ClassName, ClassDepartmentID, ClassDepartmentName, ClassStartDate, ClassEndDate, ClassPriceCurrent, ClassEnrollmentMax, ClassroomID, ClassroomName, ClassroomSizeMax, StartDate, EndDate, IsCurrent)&#xA;SELECT ClassID, ClassName, ClassDepartmentID, ClassDepartmentName, ClassStartDate, ClassEndDate, ClassPriceCurrent, ClassEnrollmentMax, ClassroomID, ClassroomName, ClassroomSizeMax, StartDate, EndDate, IsCurrent&#xA;FROM&#xA;(MERGE INTO DWStudentEnrollments.dbo.DimClasses AS t -- t is for target table&#xA;USING&#xA;(&#xA;SELECT &#xA;&#x9; CAST(ClassID AS int) AS ClassID&#xA;&#x9;,CAST(ClassName AS nvarchar(100)) AS ClassName&#xA;&#x9;,CAST(ClassDepartmentID AS int) AS ClassDepartmentID&#xA;&#x9;,CAST(ClassDepartmentName AS nvarchar(100)) AS ClassDepartmentName&#xA;&#x9;,CAST(ClassStartDate AS datetime) AS ClassStartDate&#xA;&#x9;,CAST(ClassEndDate AS datetime) AS ClassEndDate&#xA;&#x9;,CAST(ClassPriceCurrent AS decimal(18,2)) AS ClassPriceCurrent&#xA;&#x9;,CAST(classenrollmentmax as nvarchar(100)) AS ClassEnrollmentMax&#xA;&#x9;,CAST(classroomid AS int) AS ClassRoomID&#xA;&#x9;,CAST(classroomname AS nvarchar(100)) AS ClassroomName&#xA;&#x9;,CAST(classroomsizemax AS int) AS ClassroomSizeMax&#xA;FROM OPENROWSET('SQLNCLI11'&#xA;,'Server=continuumsql.westus2.cloudapp.azure.com;uid=BICert;pwd=BICert;database=StudentEnrollments;' &#xA;, 'SELECT  &#xA;&#x9;&#x9;c.classid&#xA;&#x9;&#x9;,c.classname&#xA;&#x9;&#x9;,d.departmentid AS classdepartmentid&#xA;&#x9;&#x9;,d.departmentname AS classdepartmentname&#xA;&#x9;&#x9;,c.classstartdate&#xA;&#x9;&#x9;,c.classenddate&#xA;&#x9;&#x9;,c.currentclassprice AS classpricecurrent&#xA;&#x9;&#x9;,c.maxclassenrollment AS classenrollmentmax&#xA;&#x9;&#x9;,cl.classroomid&#xA;&#x9;&#x9;,cl.classroomname&#xA;&#x9;&#x9;,cl.maxclasssize AS classroomsizemax&#xA;&#x9;From dbo.Classes c&#xA;&#x9;INNER JOIN dbo.Departments d&#xA;&#x9;&#x9;ON d.departmentid = c.departmentid&#xA;&#x9;INNER JOIN dbo.ClassRooms cl&#xA;&#x9;&#x9;ON cl.classroomid = c.classroomid'&#xA;) AS s1&#xA;&#x9;) AS s -- s is for source table&#xA;&#x9;ON t.ClassID = s.ClassID&#xA;&#x9;&#xA;WHEN NOT MATCHED BY SOURCE -- The ClassID in the Target table is not in the Source table then delete the row&#xA;&#x9;THEN &#xA;&#x9;&#x9;DELETE&#xA;&#xA;WHEN MATCHED AND t.IsCurrent = 'Y' -- If the current row value is 'Y' and the fields below do not match between the source and target table then end date the row and change the IsCurrent value to 'N'&#xA;&#x9;AND (ISNULL(t.ClassName, '') != ISNULL(s.ClassName, '') &#xA;&#x9;OR ISNULL(t.ClassDepartmentName, '') != ISNULL(s.ClassDepartmentName, '')&#xA;&#x9;OR ISNULL(t.ClassroomName, '') != ISNULL(s.ClassroomName, ''))&#xA;THEN&#xA;&#x9;UPDATE &#xA;&#x9;SET t.IsCurrent= 'N', t.EndDate = GETDATE()&#xA;&#x9;OUTPUT $Action Action_Taken, s.ClassID, s.ClassName, s.ClassDepartmentID, s.ClassDepartmentName, s.ClassStartDate, s.ClassEndDate, s.ClassPriceCurrent, s.ClassEnrollmentMax, s.ClassroomID, s.ClassroomName, s.ClassroomSizeMax, GETDATE() AS StartDate, NULL as EndDate, 'Y' as IsCurrent&#xA;) AS MERGE_OUT&#xA;WHERE MERGE_OUT.Action_Taken = 'UPDATE';&#xA;GO&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="EXEC pETLFillDimClasses" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -99,7 +99,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{B8ABE6D2-C4D9-4833-B222-2D6444CF36BA}"
-              SQLTask:SqlStatementSource="-- Create variables to hold the start and end date&#xA;DECLARE @StartDate date = '01/01/2020'&#xA;DECLARE @EndDate date = '01/01/2050' &#xA;&#xA;-- Use a while loop to add dates to the table&#xA;DECLARE @DateInProcess date&#xA;SET @DateInProcess = @StartDate&#xA;&#xA;WHILE @DateInProcess &lt;= @EndDate&#xA; BEGIN&#xA; -- Add a row into the date dimension table for this date&#xA; INSERT INTO DWStudentEnrollments.dbo.DimDates&#xA; ( [DateKey], [Date], [DateName], [DateDayKey], [DateDayName], [DateMonthKey], [DateMonthName], [DateQuarterKey], [DateQuarterName], [DateQuarter], [DateYearMonthKey], [DateYearMonthName], [DateYearKey], [DateYearName] )&#xA; VALUES (&#xA;    Cast(Convert(nvarchar(50), @DateInProcess , 112) as int) -- [DateKey]&#xA;  , @DateInProcess --[Date]&#xA;  , CAST(DateName( month, @DateInProcess ) AS NVARCHAR(50)) + ' ' + CAST(DAY( @DateInProcess) AS NVARCHAR(50)) +', ' + Cast(Year(@DateInProcess) as nVarchar(50)) -- datename&#xA;  , DAY( @DateInProcess) --DATE_DAY_KEY&#xA;  , DateName(weekday, @DateInProcess ) -- [DateDayNumber) &#xA;  , Month( @DateInProcess ) -- [Month]   &#xA;  , DateName( month, @DateInProcess ) -- [MonthName]&#xA;  , DateName( quarter, @DateInProcess ) -- DATE_QUARTER_KEY&#xA;  , 'Q' + DateName( quarter, @DateInProcess ) + ' - ' + Cast( Year(@DateInProcess) as nVarchar(50) )  -- DATE_QUARTER_NAME&#xA;  , 'Q' + DateName( quarter, @DateInProcess ) -- DATE_QUARTER&#xA;  , CASE &#xA;&#x9;&#x9;WHEN LEN(MONTH(@DateInProcess )) = 1 THEN CONCAT(Year(@DateInProcess), CONCAT('0', MONTH(@DateInProcess)))&#xA;&#x9;&#x9;WHEN LEN(MONTH(@DateInProcess )) = 2 THEN CONCAT(Year(@DateInProcess), Month(@DateInProcess))&#xA;&#x9;end -- DATE_YEAR_MONTH_KEY&#xA;  , DateName( month, @DateInProcess ) + ' ' + Cast(Year(@DateInProcess ) as nVarchar(50)) -- DATE_YEAR_MONTH_NAME&#xA;  , Year( @DateInProcess) -- DATE_YEAR_KEY&#xA;  , Cast(Year(@DateInProcess) as nVarchar(50)) -- YEAR&#xA;  )  &#xA; -- Add a day and loop again&#xA; SET @DateInProcess = DateAdd(d, 1, @DateInProcess)&#xA; END&#xA;&#xA; &#xA;-- 2e) Add additional lookup values to DimDates&#xA;INSERT INTO DWStudentEnrollments.dbo.DimDates&#xA;  ([DateKey],&#xA;   [Date], &#xA;   [DateName], &#xA;   [DateDayKey], &#xA;   [DateDayName], &#xA;   [DateMonthKey], &#xA;   [DateMonthName], &#xA;   [DateQuarterKey], &#xA;   [DateQuarterName], &#xA;   [DateQuarter], &#xA;   [DateYearMonthKey], &#xA;   [DateYearMonthName], &#xA;   [DateYearKey], &#xA;   [DateYearName] )&#xA;SELECT&#xA;    [DateKey] = -1&#xA;  , [Date] = '1/1/1900'&#xA;  , [DateName] = Cast('Unknown Date' as nVarchar(100) )&#xA;  , [DateDayKey] = -1&#xA;  , [DateDayName] = Cast('Unknown Day' as nVarchar(50) )&#xA;  , [DateMonthKey] = -1&#xA;  , [DateMonthName] = Cast('Unknown Month' as nVarchar(50) )&#xA;  , [DateQuarterKey] =  -1&#xA;  , [DateQuarterName] = Cast('Unknown Quarter' as nVarchar(50) )&#xA;  , [DateQuarter] = Cast('Unknown Quarter' as nVarchar(50) )&#xA;  , [DateYearMonthKey] = -1&#xA;  , [DateYearMonthName] = Cast('Unknown Year Month' as nVarchar(50) )&#xA;  , [DateYearKey] = -1&#xA;  , [DateYearName] = Cast('Unknown Year' as nVarchar(50) )&#xA;  UNION&#xA;SELECT&#xA;    [DateKey] = -2&#xA;  , [Date] = '1/1/1900'&#xA;  , [DateName] = Cast('Corrupt Date' as nVarchar(50) )&#xA;  , [DateDayKey] = -2&#xA;  , [DateDayName] = Cast('Corrupt Day' as nVarchar(50) )&#xA;  , [DateMonthKey] = -2&#xA;  , [DateMonthName] = Cast('Corrupt Month' as nVarchar(50) )&#xA;  , [DateQuarterKey] =  -2&#xA;  , [DateQuarterName] = Cast('Corrupt Quarter' as nVarchar(50) )&#xA;  , [DateQuarter] = Cast('Corrupt Quarter' as nVarchar(50) )&#xA;  , [DateYearMonthKey] = -2&#xA;  , [DateYearMonthName] = Cast('Unknown Year Month' as nVarchar(50) )&#xA;  , [DateYearKey] = -2&#xA;  , [DateYearName] = Cast('Corrupt Year' as nVarchar(50) )&#xA;&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="EXEC DWStudentEnrollments.dbo.pETLFillDimDates" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -116,7 +116,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{B8ABE6D2-C4D9-4833-B222-2D6444CF36BA}"
-              SQLTask:SqlStatementSource="MERGE INTO DWStudentEnrollments.dbo.DimStudents AS t -- t is for target table&#xA;USING&#xA;(&#xA;SELECT &#xA;&#x9;&#x9; CAST(StudentID AS int) AS StudentID&#xA;&#x9;&#x9;,CAST(StudentFirstName AS NVARCHAR(100)) AS StudentFirstName&#xA;&#x9;&#x9;,CAST(StudentLastName AS NVARCHAR(100)) AS StudentLastName&#xA;&#x9;&#x9;,CAST(StudentEmail AS NVARCHAR(100)) AS StudentEmail&#xA;FROM OPENROWSET('SQLNCLI11'&#xA;,'Server=continuumsql.westus2.cloudapp.azure.com;uid=BICert;pwd=BICert;database=StudentEnrollments;' &#xA;, 'SELECT * From dbo.Students'&#xA;) AS s1&#xA;&#x9;) AS s-- s is for source table&#xA;&#x9;ON t.StudentID = s.StudentID  &#xA;&#xA;WHEN NOT MATCHED THEN -- The StudentID in the source table is not found in the target table; Add new row&#xA;&#x9;&#x9;&#x9;INSERT (StudentId, StudentFirstName, StudentLastName, StudentEmail, StartDate, EndDate, IsCurrent)&#xA;&#x9;&#x9;&#x9;VALUES(s.StudentId, s.StudentFirstName, s.StudentLastName, s.StudentEmail, GETDATE(), null, 'Y')&#xA;  &#xA;WHEN MATCHED -- The StudentID matches between source and target table; SCD 1 - update the values below if the fields below don't match &#xA;&#x9;AND (s.StudentEmail &lt;&gt; t.StudentEmail)&#xA;THEN &#xA;&#x9;UPDATE&#xA;&#x9;SET t.StudentEmail = s.StudentEmail;&#xA;GO&#xA;&#xA;-- Implements Slowly Changing Dimension Type 2&#xA;INSERT INTO DWStudentEnrollments.dbo.DimStudents (StudentId, StudentFirstName, StudentLastName, StudentEmail, StartDate, EndDate, IsCurrent)&#xA;SELECT StudentId, StudentFirstName, StudentLastName, StudentEmail, StartDate, EndDate, IsCurrent&#xA;FROM&#xA;(MERGE INTO DWStudentEnrollments.dbo.DimStudents AS t -- t is for target table&#xA;USING&#xA;(&#xA;SELECT &#xA;&#x9;&#x9; CAST(StudentID AS int) AS StudentID&#xA;&#x9;&#x9;,CAST(StudentFirstName AS NVARCHAR(100)) AS StudentFirstName&#xA;&#x9;&#x9;,CAST(StudentLastName AS NVARCHAR(100)) AS StudentLastName&#xA;&#x9;&#x9;,CAST(StudentEmail AS NVARCHAR(100)) AS StudentEmail&#xA;FROM OPENROWSET('SQLNCLI11'&#xA;,'Server=continuumsql.westus2.cloudapp.azure.com;uid=BICert;pwd=BICert;database=StudentEnrollments;' &#xA;, 'SELECT * From dbo.Students'&#xA;) AS s1&#xA;&#x9;) AS s-- s is for source table&#xA;&#x9;ON t.StudentID = s.StudentID &#xA;&#x9;&#xA;WHEN NOT MATCHED BY SOURCE -- The StudentID in the Target table is not in the Source table then delete the row&#xA;&#x9;THEN &#xA;&#x9;&#x9;DELETE&#xA;&#xA;WHEN MATCHED AND t.IsCurrent = 'Y' -- If the current row IsCurrent value is 'Y' and the fields below do not match between the source and target table then end date the row and change the IsCurrent value to 'N'&#xA;&#x9;AND (ISNULL(t.StudentFirstName, '') != ISNULL(s.StudentFirstName, '') &#xA;&#x9;OR ISNULL(t.StudentLastName, '') != ISNULL(s.StudentLastName, ''))&#xA;THEN&#xA;&#x9;UPDATE &#xA;&#x9;SET t.IsCurrent= 'N', t.EndDate = GETDATE()&#xA;&#x9;OUTPUT $Action Action_Taken, s.StudentID, s.StudentFirstName, s.StudentLastName, s.StudentEmail, GETDATE() AS StartDate, NULL as EndDate, 'Y' as IsCurrent&#xA;) AS MERGE_OUT&#xA;WHERE MERGE_OUT.Action_Taken = 'UPDATE';&#xA;GO&#xA;&#x9;&#x9;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="EXEC dbo.pETLFillDimStudents" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -163,7 +163,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{B8ABE6D2-C4D9-4833-B222-2D6444CF36BA}"
-              SQLTask:SqlStatementSource="&#xA;--- Insert only new records into fact table&#xA;MERGE INTO DWStudentEnrollments.dbo.FactEnrollments AS t -- t is for target table&#xA;USING&#xA;(&#xA;SELECT &#xA;&#x9; CAST(s1.enrollmentid AS int) AS EnrollmentID&#xA;&#x9;,d.DateKey AS EnrollmentDateKey&#xA;&#x9;,st.StudentKey&#xA;&#x9;,c.ClassKey&#xA;&#x9;,CAST(s1.actualenrollmentprice AS decimal(18,2)) AS ActualEnrollmentPrice&#xA;FROM OPENROWSET('SQLNCLI11'&#xA;,'Server=continuumsql.westus2.cloudapp.azure.com;uid=BICert;pwd=BICert;database=StudentEnrollments;' &#xA;, 'SELECT  &#xA;&#x9;&#x9;enrollmentid&#xA;&#x9;&#x9;,CAST(enrollmentdate AS date) AS enrollmentdate&#xA;&#x9;&#x9;,studentid&#xA;&#x9;&#x9;,classid&#xA;&#x9;&#x9;,actualenrollmentprice&#xA;&#x9;From dbo.enrollments'&#xA;) AS s1&#xA;INNER JOIN DWStudentEnrollments.dbo.DimDates d&#xA;&#x9;ON d.[datekey] = isNull(Convert(nvarchar(50), s1.enrollmentdate, 112), '-1')&#xA;INNER JOIN DWStudentEnrollments.dbo.DimStudents st&#xA;&#x9;ON st.studentid = s1.studentid&#xA;&#x9;AND st.IsCurrent = 'Y'&#xA;INNER JOIN DWStudentEnrollments.dbo.DimClasses c&#xA;&#x9;ON c.classid = s1.classid&#xA;&#x9;AND c.IsCurrent = 'Y'&#xA;) AS s -- s is for source table&#xA;&#x9;ON t.EnrollmentID = s.EnrollmentID&#xA;&#xA;WHEN NOT MATCHED THEN -- The EnrollmentID in the source table is not found in the target table; Add new row&#xA;&#x9;&#x9;INSERT (EnrollmentID, EnrollmentDateKey, StudentKey, ClassKey, ActualEnrollmentPrice)&#xA;&#x9;&#x9;VALUES(s.EnrollmentID, s.EnrollmentDateKey, s.StudentKey, s.ClassKey, s.ActualEnrollmentPrice)&#xA;;&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="EXEC dbo.pETLFillFactEnrollments" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -192,7 +192,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{B8ABE6D2-C4D9-4833-B222-2D6444CF36BA}"
-              SQLTask:SqlStatementSource="Alter Table DWStudentEnrollments.dbo.FactEnrollments Drop Constraint IF EXISTS FK_FactEnrollments_DimStudents&#xA;Alter Table DWStudentEnrollments.dbo.FactEnrollments Drop Constraint IF EXISTS FK_FactEnrollments_DimClasses&#xA;Alter Table DWStudentEnrollments.dbo.FactEnrollments Drop Constraint IF EXISTS FK_FactEnrollments_DimDates" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="EXEC DWStudentEnrollments.dbo.pETLDropFKs" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -209,7 +209,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{B8ABE6D2-C4D9-4833-B222-2D6444CF36BA}"
-              SQLTask:SqlStatementSource="TRUNCATE TABLE DWStudentEnrollments.dbo.DimClasses&#xA;TRUNCATE TABLE DWStudentEnrollments.dbo.DimDates&#xA;TRUNCATE TABLE DWStudentEnrollments.dbo.DimStudents&#xA;TRUNCATE TABLE DWStudentEnrollments.dbo.FactEnrollments" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="EXEC DWStudentEnrollments.dbo.pETLTruncateTables" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -277,24 +277,24 @@
         <NodeLayout
           Size="281.2,41.6"
           Id="Package\Load Dimension Tables Sequence Container\Fill DimClasses Execute SQL Task"
-          TopLeft="32.2307693859529,143.030314699459" />
+          TopLeft="40.3076927591359,143.030314699459" />
         <NodeLayout
           Size="285.2,41.6"
           Id="Package\Load Dimension Tables Sequence Container\Fill DimDates Execute SQL Task"
-          TopLeft="25.307692208939,22.3030399229684" />
+          TopLeft="28,21.9091005147983" />
         <NodeLayout
-          Size="286,41.6"
+          Size="281.2,41.6"
           Id="Package\Load Dimension Tables Sequence Container\Fill DimStudents Execute SQL Task"
-          TopLeft="26.461538405108,80.7575866582754" />
+          TopLeft="34.538461778291,80.7575866582754" />
         <EdgeLayout
           Id="Package\Load Dimension Tables Sequence Container.PrecedenceConstraints[Constraint]"
-          TopLeft="25.307692208939,43.1030399229684">
+          TopLeft="28,42.7091005147983">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="1.15384619616896,52.8545467353071"
+              EndConnector="6.53846177829095,53.2484861434771"
               Start="0,0"
-              End="-6.34615380383104,52.8545467353071">
+              End="-0.961538221709048,53.2484861434771">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -305,13 +305,13 @@
                     Point2="-22.5,0"
                     Point3="-22.5,4" />
                   <mssgle:LineSegment
-                    End="-22.5,48.8545467353071" />
+                    End="-22.5,49.2484861434771" />
                   <mssgle:CubicBezierSegment
-                    Point1="-22.5,48.8545467353071"
-                    Point2="-22.5,52.8545467353071"
-                    Point3="-18.5,52.8545467353071" />
+                    Point1="-22.5,49.2484861434771"
+                    Point2="-22.5,53.2484861434771"
+                    Point3="-18.5,53.2484861434771" />
                   <mssgle:LineSegment
-                    End="-6.34615380383104,52.8545467353071" />
+                    End="-0.961538221709048,53.2484861434771" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -322,13 +322,13 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Load Dimension Tables Sequence Container.PrecedenceConstraints[Constraint 1]"
-          TopLeft="26.461538405108,101.557586658275">
+          TopLeft="34.538461778291,101.557586658275">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="5.7692309808449,62.2727280411835"
+              EndConnector="5.76923098084492,62.2727280411836"
               Start="0,0"
-              End="-1.7307690191551,62.2727280411835">
+              End="-1.73076901915508,62.2727280411836">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -339,13 +339,13 @@
                     Point2="-22.5,0"
                     Point3="-22.5,4" />
                   <mssgle:LineSegment
-                    End="-22.5,58.2727280411835" />
+                    End="-22.5,58.2727280411836" />
                   <mssgle:CubicBezierSegment
-                    Point1="-22.5,58.2727280411835"
-                    Point2="-22.5,62.2727280411835"
-                    Point3="-18.5,62.2727280411835" />
+                    Point1="-22.5,58.2727280411836"
+                    Point2="-22.5,62.2727280411836"
+                    Point3="-18.5,62.2727280411836" />
                   <mssgle:LineSegment
-                    End="-1.7307690191551,62.2727280411835" />
+                    End="-1.73076901915508,62.2727280411836" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -358,7 +358,7 @@
           HeaderHeight="43"
           IsExpanded="True"
           PanelSize="344.8,240"
-          Size="344.8,282.8"
+          Size="344.8,283.2"
           Id="Package\Load Dimension Tables Sequence Container"
           TopLeft="38.8461552710224,288.909100045186" />
         <NodeLayout
@@ -423,18 +423,30 @@
           TopLeft="38.4615398722993,50.4242442457692" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="212.853847571661,239.224244245769">
+          TopLeft="214.461539872299,239.224244245769">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,49.6848557994169"
+              EndConnector="-59.3487179346102,49.6848557994167"
               Start="0,0"
-              End="0,42.1848557994169">
+              End="-59.3487179346102,42.1848557994167">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,42.1848557994169" />
+                    End="0,25.6732187291667" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25.6732187291667"
+                    Point2="0,29.6732187291667"
+                    Point3="-4,29.6732187291667" />
+                  <mssgle:LineSegment
+                    End="-55.3487179346102,29.6732187291667" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-55.3487179346102,29.6732187291667"
+                    Point2="-59.3487179346102,29.6732187291667"
+                    Point3="-59.3487179346102,33.6732187291667" />
+                  <mssgle:LineSegment
+                    End="-59.3487179346102,42.1848557994167" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -449,9 +461,9 @@
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="272.297450174336,-47.6424325958321"
+              EndConnector="272.297450174336,-47.642432595832"
               Start="0,0"
-              End="272.297450174336,-40.1424325958321">
+              End="272.297450174336,-40.142432595832">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -468,7 +480,7 @@
                     Point2="272.297450174336,-23.8154370062959"
                     Point3="272.297450174336,-27.8154370062959" />
                   <mssgle:LineSegment
-                    End="272.297450174336,-40.1424325958321" />
+                    End="272.297450174336,-40.142432595832" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>

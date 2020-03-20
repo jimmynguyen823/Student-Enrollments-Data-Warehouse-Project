@@ -6,12 +6,13 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{FDCF9AD1-639D-4FBD-9D55-AA75336240FC}"
 	ProjectSection(SolutionItems) = preProject
 		Documents\BI Concepts_Planning_Implementation_Project.docx = Documents\BI Concepts_Planning_Implementation_Project.docx
-		Documents\BISolutionWorksheet.xlsx = Documents\BISolutionWorksheet.xlsx
-		Documents\ERD Design.vsdx = Documents\ERD Design.vsdx
+		Documents\ERD For DWStudentEnrollments.vsdx = Documents\ERD For DWStudentEnrollments.vsdx
+		Documents\MetaDataWorkSheet.xlsx = Documents\MetaDataWorkSheet.xlsx
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQLScripts", "SQLScripts", "{5A4E31A5-99A1-442B-AA6A-C0C7ECC4439B}"
 	ProjectSection(SolutionItems) = preProject
+		SQLScripts\0-Investigating Data Techniques.sql = SQLScripts\0-Investigating Data Techniques.sql
 		SQLScripts\1-Create the DWStudentEnrollments database.sql = SQLScripts\1-Create the DWStudentEnrollments database.sql
 		SQLScripts\2-Perform the ETL process.sql = SQLScripts\2-Perform the ETL process.sql
 	EndProjectSection
