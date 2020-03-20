@@ -60,26 +60,18 @@ GO
 
 /****** [dbo].[DimDates] ******/
 CREATE TABLE DWStudentEnrollments.dbo.DimDates (
-	 [DateKey] int NOT NULL --Constraint pkDimDates PRIMARY KEY 
-	,[Datetime] datetime NOT NULL
-	,[Date] date NOT NULL
-	,[DateName] nVarchar(100) NOT NULL
-	,[DateDayKey] int NOT NULL
-	,[DateDayName] nVarchar(100) NOT NULL
-	,[DateMonthKey] int NOT NULL
-	,[DateMonthName] nVarchar(100) NOT NULL
-	,[DateQuarterKey] int NOT NULL
-	,[DateQuarterName] nVarchar(100) NOT NULL
-	,[DateQuarter] nVarchar(100) NOT NULL
-	,[DateYearMonthKey] int NOT NULL
-	,[DateYearMonthName] nVarchar(100) NOT NULL
-	,[DateYearKey] int NOT NULL
-	,[DateYearName] nVarchar(100) NOT NULL
-	,[InsertDate] [datetime] NOT NULL DEFAULT GETDATE()
-	CONSTRAINT PK_DimDates PRIMARY KEY(DateKey)
-)
-GO
-
+  [DateKey] int Not Null Constraint pkDimDates PRIMARY KEY -- We will use a Smart Key of YYYYMMDD 
+, [FullDateTime] datetime Not Null
+, [Date] date NOT NULL
+, [DateName] nVarchar(50)
+, [MonthKey] int Not Null
+, [MonthName] nVarchar(50) Not Null
+, [QuarterKey] int Not Null
+, [QuarterName] nVarchar(50) Not Null
+, [YearKey] int Not Null
+, [YearName] nVarchar(50) Not Null
+);
+Go
 
 --********************************************************************--
 -- Create the Fact Tables
@@ -194,7 +186,7 @@ FROM DWStudentEnrollments.dbo.DimClasses
 WHERE IsCurrent = 'Y'
 GO
 
-CREATE OR ALTER VIEW vDimDates
+CREATE OR ALTER VIEW dbo.vDimDates
 AS
 SELECT 
 	*
@@ -235,11 +227,6 @@ Join Sys.Tables tab
 And t.name <> 'sysname'
 Order By [Source Table], col.column_id; 
 go
-
-Select * From vStudentEnrollmentsMetaData;
-GO
-SELECT * FROM [dbo].[vDimDates]
-
 
 --********************************************************************--
 -- Review the results of this script

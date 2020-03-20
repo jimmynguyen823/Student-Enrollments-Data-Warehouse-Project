@@ -6,10 +6,51 @@
     <Name>StudentEnrollmentCubes.database</Name>
     <FullPath>StudentEnrollmentCubes.database</FullPath>
   </Database>
+  <Dimensions>
+    <ProjectItem>
+      <Name>Classes.dim</Name>
+      <FullPath>Classes.dim</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>Students.dim</Name>
+      <FullPath>Students.dim</FullPath>
+    </ProjectItem>
+  </Dimensions>
+  <DataSources>
+    <ProjectItem>
+      <Name>DWStudentEnrollments.ds</Name>
+      <FullPath>DWStudentEnrollments.ds</FullPath>
+    </ProjectItem>
+  </DataSources>
+  <DataSourceViews>
+    <ProjectItem>
+      <Name>vDWStudentEnrollments.dsv</Name>
+      <FullPath>vDWStudentEnrollments.dsv</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>vStudentEnrollments.dsv</Name>
+      <FullPath>vStudentEnrollments.dsv</FullPath>
+    </ProjectItem>
+  </DataSourceViews>
   <Configurations>
     <Configuration>
       <Name>Development</Name>
-      <Options />
+      <Options>
+        <ConnectionMappings>
+          <ConfigurationSetting>
+            <Id>DW Student Enrollments</Id>
+            <Name>DW Student Enrollments</Name>
+            <Value xsi:type="xsd:string">Provider=SQLNCLI11.1;Data Source=LAPTOP-JIMMY823\SQL2019;Integrated Security=SSPI;Initial Catalog=DWStudentEnrollments</Value>
+          </ConfigurationSetting>
+        </ConnectionMappings>
+        <ConnectionSecurityMappings>
+          <ConfigurationSetting>
+            <Id>DW Student Enrollments</Id>
+            <Name>DW Student Enrollments</Name>
+            <Value xsi:type="xsd:int">0</Value>
+          </ConfigurationSetting>
+        </ConnectionSecurityMappings>
+      </Options>
     </Configuration>
   </Configurations>
 </Project>

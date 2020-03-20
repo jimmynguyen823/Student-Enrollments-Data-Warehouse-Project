@@ -1,0 +1,288 @@
+﻿<Dimension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:ddl300="http://schemas.microsoft.com/analysisservices/2011/engine/300" xmlns:ddl300_300="http://schemas.microsoft.com/analysisservices/2011/engine/300/300" xmlns:ddl400="http://schemas.microsoft.com/analysisservices/2012/engine/400" xmlns:ddl400_400="http://schemas.microsoft.com/analysisservices/2012/engine/400/400" xmlns:ddl500="http://schemas.microsoft.com/analysisservices/2013/engine/500" xmlns:ddl500_500="http://schemas.microsoft.com/analysisservices/2013/engine/500/500" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0" dwd:design-time-name="52caeb89-c458-4a20-a1cf-d791d41b1c28" xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+  <ID>Classes</ID>
+  <Name>Classes</Name>
+  <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
+  <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
+  <Annotations>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramLayout</Name>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ShowFriendlyNames</Name>
+      <Value>true</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ShowRelationshipNames</Name>
+      <Value>false</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:UseDiagramDefaultLayout</Name>
+      <Value>true</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramViewPortLeft</Name>
+      <Value>0</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramViewPortTop</Name>
+      <Value>0</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramBoundingLeft</Name>
+      <Value>0</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramBoundingTop</Name>
+      <Value>0</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramZoom</Name>
+      <Value>100</Value>
+    </Annotation>
+  </Annotations>
+  <LastProcessed>0001-01-01T00:00:00Z</LastProcessed>
+  <State>Unprocessed</State>
+  <Source xsi:type="DataSourceViewBinding" dwd:design-time-name="f36b228b-f607-4b04-a8ec-061d061fc3c8">
+    <DataSourceViewID>vStudentEnrollments</DataSourceViewID>
+  </Source>
+  <Type>Time</Type>
+  <ErrorConfiguration dwd:design-time-name="2505bfc3-f0d3-479a-a4c3-7adf9349b596">
+    <KeyNotFound>ReportAndStop</KeyNotFound>
+    <KeyDuplicate>ReportAndStop</KeyDuplicate>
+    <NullKeyNotAllowed>ReportAndStop</NullKeyNotAllowed>
+  </ErrorConfiguration>
+  <CurrentStorageMode>Molap</CurrentStorageMode>
+  <Attributes>
+    <Attribute dwd:design-time-name="a863d61e-ab71-4f92-9646-ee9ecc8bdc79">
+      <ID>Class</ID>
+      <Name>Class</Name>
+      <Usage>Key</Usage>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="4b850142-e064-4d4c-b971-bb5afd2575b2">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="2587150b-337e-41c1-81cd-c6c680f45da1">
+            <TableID>Classes</TableID>
+            <ColumnID>ClassKey</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <NameColumn dwd:design-time-name="7deca89a-8416-41d9-ad71-55b41adcd91a">
+        <DataType>WChar</DataType>
+        <DataSize>200</DataSize>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="65bfb158-155e-4bdd-8ecf-1e33ff96e451">
+          <TableID>Classes</TableID>
+          <ColumnID>ClassName</ColumnID>
+        </Source>
+      </NameColumn>
+      <AttributeRelationships>
+        <AttributeRelationship dwd:design-time-name="e9119425-6559-4a42-91fa-2a561f840395">
+          <AttributeID>ClassID</AttributeID>
+          <Name>ClassID</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="8b160c9d-2eb8-40f7-82c5-cc0c0f27023a">
+          <AttributeID>ClassStartDate</AttributeID>
+          <Name>ClassStartDate</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="6d56e160-1a33-4ad8-b40d-d7b793fb2621">
+          <AttributeID>ClassEndDate</AttributeID>
+          <Name>ClassEndDate</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="95efa8c7-91af-4370-a9c4-141b2ef8901d">
+          <AttributeID>ClassPriceCurrent</AttributeID>
+          <Name>ClassPriceCurrent</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="fd595856-d250-4768-bd09-3ab5d38f5323">
+          <AttributeID>ClassEnrollment Max</AttributeID>
+          <Name>ClassEnrollment Max</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="65807fd1-cfc6-4a13-8e36-7370d7c91e74">
+          <AttributeID>ClassroomID</AttributeID>
+          <Name>ClassroomID</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="e803617f-d3ea-4eb5-ae6e-67eea54088ef">
+          <AttributeID>ClassroomName</AttributeID>
+          <Name>ClassroomName</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="974aa3b8-62b1-42dd-a186-ec6b28898b56">
+          <AttributeID>ClassroomSizeMax</AttributeID>
+          <Name>ClassroomSizeMax</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="cbda1e89-a239-469d-ab13-3b516e768a45">
+          <AttributeID>ClassDepartmentID</AttributeID>
+          <Name>ClassDepartmentID</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="af4df7cc-db5a-4b3f-8f2f-f931383d076d">
+          <AttributeID>ClassDepartmentName</AttributeID>
+          <Name>ClassDepartmentName</Name>
+        </AttributeRelationship>
+      </AttributeRelationships>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="41d1afb9-5e65-4561-bd9d-e4e1382a3600">
+      <ID>ClassID</ID>
+      <Name>ClassID</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="99a69827-e518-4086-bd17-98a3e178d804">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="e9a29a8c-7c7c-43b5-a2bc-4bce26585dbf">
+            <TableID>Classes</TableID>
+            <ColumnID>ClassID</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="04a59b1f-18de-4cb2-838d-38e08d399f26">
+      <ID>ClassStartDate</ID>
+      <Name>ClassStartDate</Name>
+      <Type>Date</Type>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="a1d6c500-aea5-48aa-8c7d-be454419e6c1">
+          <DataType>Date</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="29205c30-c6fb-4ec7-84cd-93aee2abf1d5">
+            <TableID>Classes</TableID>
+            <ColumnID>ClassStartDate</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="d0f18852-2efe-4f14-8626-2ad0e4464335">
+      <ID>ClassEndDate</ID>
+      <Name>ClassEndDate</Name>
+      <Type>Date</Type>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="1dd58bec-0b4b-4c5b-99e5-ad991dd83937">
+          <DataType>Date</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="a582f171-673f-4009-8e54-69257e5db9ec">
+            <TableID>Classes</TableID>
+            <ColumnID>ClassEndDate</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="4fea9335-2a0e-43c8-939d-5177919b1aba">
+      <ID>ClassPriceCurrent</ID>
+      <Name>ClassPriceCurrent</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="03653887-cb96-4d86-bc71-db62a7419a70">
+          <DataType>Double</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="107e796c-9bb4-456a-b60c-f67d40f0ff5d">
+            <TableID>Classes</TableID>
+            <ColumnID>ClassPriceCurrent</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="fdbca9c2-91e6-4925-9f36-2d1ba0a22525">
+      <ID>ClassEnrollment Max</ID>
+      <Name>ClassEnrollment Max</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="1fedd522-3c38-4ee5-9bd2-01d707c8d497">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="08124d04-9957-4cda-8f19-d4de46317e54">
+            <TableID>Classes</TableID>
+            <ColumnID>ClassEnrollmentMax</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="32955182-5999-4daf-8b27-fec5c408c40c">
+      <ID>ClassroomID</ID>
+      <Name>ClassroomID</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="998abae0-714b-4550-91f7-8a8f707fbfbf">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="ef4a518f-92b1-4bb7-bdb0-de71ef26204d">
+            <TableID>Classes</TableID>
+            <ColumnID>ClassroomID</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="00352fb9-0856-4831-b8ad-a38aa1bdf29d">
+      <ID>ClassroomName</ID>
+      <Name>ClassroomName</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="4be65ba3-c199-46e8-b1a4-d6b2d83d29d3">
+          <DataType>WChar</DataType>
+          <DataSize>200</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="f7031b6a-839d-418a-926d-44bcfc1d7bfb">
+            <TableID>Classes</TableID>
+            <ColumnID>ClassroomName</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="4ab4bc4a-9589-4d1a-8a46-21863aff02fb">
+      <ID>ClassroomSizeMax</ID>
+      <Name>ClassroomSizeMax</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="edd7fb4f-bac5-43a1-af41-e8f32dda48fc">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="461b2359-e27e-4e63-b846-58566aeff2bc">
+            <TableID>Classes</TableID>
+            <ColumnID>ClassroomSizeMax</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="3475ae03-9a60-4e85-89ce-7d6f6feebc89">
+      <ID>ClassDepartmentID</ID>
+      <Name>ClassDepartmentID</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="bfdbfe37-ec62-46f2-ab2e-e51441f0fe28">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="dac26995-e44b-4f17-be52-ed25db1bdb26">
+            <TableID>Classes</TableID>
+            <ColumnID>ClassDepartmentID</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="5ba40a6d-5736-4cab-8b1f-c97b8896c725">
+      <ID>ClassDepartmentName</ID>
+      <Name>ClassDepartmentName</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="bb0409ec-391e-441e-bf1e-a7c0cc9a9584">
+          <DataType>WChar</DataType>
+          <DataSize>200</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="be2a3c5b-4a7c-42ca-9e35-89e49d6a04ff">
+            <TableID>Classes</TableID>
+            <ColumnID>ClassDepartmentName</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+  </Attributes>
+  <ddl300:ProcessingState>Unprocessed</ddl300:ProcessingState>
+</Dimension>

@@ -41,96 +41,93 @@ GO
 --********************************************************************--
 
 /****** [dbo].[DimDates] ******/
-Create or Alter Procedure dbo.pETLFillDimDates
+Create or Alter Procedure pETLFillDimDates
 As
  Begin
 -- Create variables to hold the start and end date
-DECLARE @StartDate datetime = '01/01/2020'
-DECLARE @EndDate datetime = '01/01/2050' 
+DECLARE @StartDate datetime = '01/01/2020';
+DECLARE @EndDate datetime = '12/31/2029';
+
+ --Test Expressions: 
+ --Select Convert(nVarchar(50),@StartDate , 112)
+ --Select Right('0' + Cast(Month(@StartDate) as nVarchar(3)), 2)
+ --Select Cast(Year( @StartDate ) as nvarchar(4)) + Right('0' + Cast(Month( @StartDate ) as nVarchar(3)), 2) -- [MonthKey]    
+ --Select Cast(Year( @StartDate ) as nvarchar(4)) + Right('0' + (DateName( quarter, @StartDate )), 2)
 
 -- Use a while loop to add dates to the table
-DECLARE @DateInProcess datetime
-SET @DateInProcess = @StartDate
+DECLARE @DateInProcess datetime;
+SET @DateInProcess = @StartDate;
 
 WHILE @DateInProcess <= @EndDate
  BEGIN
- -- Add a row into the date dimension table for this date
- INSERT INTO DWStudentEnrollments.dbo.DimDates
- ( [DateKey], [Datetime],[Date], [DateName], [DateDayKey], [DateDayName], [DateMonthKey], [DateMonthName], [DateQuarterKey], [DateQuarterName], [DateQuarter], [DateYearMonthKey], [DateYearMonthName], [DateYearKey], [DateYearName] )
- VALUES (
-    Cast(Convert(nvarchar(50), @DateInProcess , 112) as int) -- [DateKey]
-  , @DateInProcess --[Date]
-  , @DateInProcess --[Date]
-  , CAST(DateName( month, @DateInProcess ) AS NVARCHAR(50)) + ' ' + CAST(DAY( @DateInProcess) AS NVARCHAR(50)) +', ' + Cast(Year(@DateInProcess) as nVarchar(50)) -- datename
-  , DAY( @DateInProcess) --DATE_DAY_KEY
-  , DateName(weekday, @DateInProcess ) -- [DateDayNumber) 
-  , Month( @DateInProcess ) -- [Month]   
-  , DateName( month, @DateInProcess ) -- [MonthName]
-  , DateName( quarter, @DateInProcess ) -- DATE_QUARTER_KEY
-  , 'Q' + DateName( quarter, @DateInProcess ) + ' - ' + Cast( Year(@DateInProcess) as nVarchar(50) )  -- DATE_QUARTER_NAME
-  , 'Q' + DateName( quarter, @DateInProcess ) -- DATE_QUARTER
-  , CASE 
-		WHEN LEN(MONTH(@DateInProcess )) = 1 THEN CONCAT(Year(@DateInProcess), CONCAT('0', MONTH(@DateInProcess)))
-		WHEN LEN(MONTH(@DateInProcess )) = 2 THEN CONCAT(Year(@DateInProcess), Month(@DateInProcess))
-	end -- DATE_YEAR_MONTH_KEY
-  , DateName( month, @DateInProcess ) + ' ' + Cast(Year(@DateInProcess ) as nVarchar(50)) -- DATE_YEAR_MONTH_NAME
-  , Year( @DateInProcess) -- DATE_YEAR_KEY
-  , Cast(Year(@DateInProcess) as nVarchar(50)) -- YEAR
-  )  
- -- Add a day and loop again
- SET @DateInProcess = DateAdd(d, 1, @DateInProcess)
- END
+	 -- Add a row into the date dimension table for this date
+	 INSERT INTO dbo.DimDates ( 
+	   DateKey
+	 , FullDateTime
+	 , [Date]
+	 , [DateName]
+	 , MonthKey
+	 , [MonthName]
+	 , QuarterKey
+	 , [QuarterName]
+	 , YearKey
+	 , [YearName]
+	 )
+	 Values ( 
+		Convert(nVarchar(50), @DateInProcess, 112) -- [DateKey]
+	  , Convert(nVarchar(50), @DateInProcess, 112) -- [FullDateTime]
+	  , Convert(nVarchar(50), @DateInProcess, 112) -- [Date]
+	  , DateName(weekday, @DateInProcess ) + ', ' +   Convert(nVarchar(50), @DateInProcess, 110) -- [DateName]  
+
+	  , Cast(Year( @DateInProcess ) as nvarchar(4)) + Right('0' + Cast(Month( @DateInProcess ) as nVarchar(3)), 2) -- [MonthKey]    
+	  , DateName( month, @DateInProcess ) + ' - ' + Cast( Year(@DateInProcess) as nVarchar(50) )-- [MonthName]
+
+	  , Cast(Year( @DateInProcess ) as nvarchar(4)) + Right('0' + (DateName( quarter, @DateInProcess )), 2) -- [QuarterKey]
+	  , 'Qtr' + DateName( quarter, @DateInProcess ) + ' - ' + Cast( Year(@DateInProcess) as nVarchar(50) ) -- [QuarterName] 
+
+	  , Year( @DateInProcess ) -- [YearKey]
+	  , Cast( Year(@DateInProcess ) as nVarchar(50) ) -- [Year] 
+	  );
+	 -- Add a day and loop again
+	 Set @DateInProcess = DateAdd(d, 1, @DateInProcess);
+	 End
  
 -- 2e) Add additional lookup values to DimDates
-INSERT INTO DWStudentEnrollments.dbo.DimDates
-  ([DateKey],
-   [Datetime],
-   [Date], 
-   [DateName], 
-   [DateDayKey], 
-   [DateDayName], 
-   [DateMonthKey], 
-   [DateMonthName], 
-   [DateQuarterKey], 
-   [DateQuarterName], 
-   [DateQuarter], 
-   [DateYearMonthKey], 
-   [DateYearMonthName], 
-   [DateYearKey], 
-   [DateYearName] )
+INSERT INTO DWStudentEnrollments.dbo.DimDates(
+	   DateKey
+	 , FullDateTime
+	 , [Date]
+	 , [DateName]
+	 , MonthKey
+	 , [MonthName]
+	 , QuarterKey
+	 , [QuarterName]
+	 , YearKey
+	 , [YearName]
+	 )
 SELECT
     [DateKey] = -1
-  ,	[Datetime] = '1/1/1900'
+  ,	[FullDatetime] = '1/1/1900'
   , [Date] = '1/1/1900'
   , [DateName] = Cast('Unknown Date' as nVarchar(100) )
-  , [DateDayKey] = -1
-  , [DateDayName] = Cast('Unknown Day' as nVarchar(50) )
-  , [DateMonthKey] = -1
-  , [DateMonthName] = Cast('Unknown Month' as nVarchar(50) )
-  , [DateQuarterKey] =  -1
-  , [DateQuarterName] = Cast('Unknown Quarter' as nVarchar(50) )
-  , [DateQuarter] = Cast('Unknown Quarter' as nVarchar(50) )
-  , [DateYearMonthKey] = -1
-  , [DateYearMonthName] = Cast('Unknown Year Month' as nVarchar(50) )
-  , [DateYearKey] = -1
-  , [DateYearName] = Cast('Unknown Year' as nVarchar(50) )
+  , [MonthKey] = -1
+  , [MonthName] = Cast('Unknown Month' as nVarchar(50) )
+  , [QuarterKey] =  -1
+  , [QuarterName] = Cast('Unknown Quarter' as nVarchar(50) )
+  , [YearKey] = -1
+  , [YearName] = Cast('Unknown Year' as nVarchar(50) )
   UNION
 SELECT
     [DateKey] = -2
-  ,	[Datetime] = '1/1/1900'
+  ,	[FullDatetime] = '1/1/1900'
   , [Date] = '1/1/1900'
   , [DateName] = Cast('Corrupt Date' as nVarchar(50) )
-  , [DateDayKey] = -2
-  , [DateDayName] = Cast('Corrupt Day' as nVarchar(50) )
-  , [DateMonthKey] = -2
-  , [DateMonthName] = Cast('Corrupt Month' as nVarchar(50) )
-  , [DateQuarterKey] =  -2
-  , [DateQuarterName] = Cast('Corrupt Quarter' as nVarchar(50) )
-  , [DateQuarter] = Cast('Corrupt Quarter' as nVarchar(50) )
-  , [DateYearMonthKey] = -2
-  , [DateYearMonthName] = Cast('Unknown Year Month' as nVarchar(50) )
-  , [DateYearKey] = -2
-  , [DateYearName] = Cast('Corrupt Year' as nVarchar(50) )
+  , [MonthKey] = -2
+  , [MonthName] = Cast('Corrupt Month' as nVarchar(50) )
+  , [QuarterKey] =  -2
+  , [QuarterName] = Cast('Corrupt Quarter' as nVarchar(50) )
+  , [YearKey] = -2
+  , [YearName] = Cast('Corrupt Year' as nVarchar(50) )
 END
 GO
 

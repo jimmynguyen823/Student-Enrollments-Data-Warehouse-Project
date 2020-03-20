@@ -1,0 +1,345 @@
+﻿<DataSourceView xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:ddl300="http://schemas.microsoft.com/analysisservices/2011/engine/300" xmlns:ddl300_300="http://schemas.microsoft.com/analysisservices/2011/engine/300/300" xmlns:ddl400="http://schemas.microsoft.com/analysisservices/2012/engine/400" xmlns:ddl400_400="http://schemas.microsoft.com/analysisservices/2012/engine/400/400" xmlns:ddl500="http://schemas.microsoft.com/analysisservices/2013/engine/500" xmlns:ddl500_500="http://schemas.microsoft.com/analysisservices/2013/engine/500/500" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0" dwd:design-time-name="9f893e57-64c0-4b8d-8913-48df2e153e68" xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+  <ID>vStudentEnrollments</ID>
+  <Name>vStudentEnrollments</Name>
+  <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
+  <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
+  <Annotations>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ShowFriendlyNames</Name>
+      <Value>true</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:CurrentLayout</Name>
+      <Value>_ALL_TABLES_</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:SchemaRestriction</Name>
+      <Value></Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:RetrieveRelationships</Name>
+      <Value>true</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:Layouts</Name>
+      <Value>
+        <Layouts xmlns="">
+          <Diagram>
+            <Name>_ALL_TABLES_</Name>
+            <DiagramLayout>
+              <dds>
+                <diagram fontclsid="{0BE35203-8F91-11CE-9DE3-00AA004BB851}" mouseiconclsid="{0BE35204-8F91-11CE-9DE3-00AA004BB851}" defaultlayout="MSDDS.Rectilinear" defaultlineroute="MSDDS.Rectilinear" version="7" nextobject="8" scale="100" pagebreakanchorx="0" pagebreakanchory="0" pagebreaksizex="0" pagebreaksizey="0" scrollleft="3254" scrolltop="-56" gridx="150" gridy="150" marginx="5000" marginy="5000" zoom="100" x="20743" y="18172" backcolor="2434342" defaultpersistence="2" PrintPageNumbersMode="3" PrintMarginTop="0" PrintMarginBottom="635" PrintMarginLeft="0" PrintMarginRight="0" marqueeselectionmode="0" mousepointer="0" snaptogrid="0" autotypeannotation="1" showscrollbars="0" viewpagebreaks="0" donotforceconnectorsbehindshapes="1" backpictureclsid="{00000000-0000-0000-0000-000000000000}">
+                  <font>
+                    <ddsxmlobjectstreamwrapper binary="010000009001683c0100065461686f6d61" />
+                  </font>
+                  <mouseicon>
+                    <ddsxmlobjectstreamwrapper binary="6c74000000000000" />
+                  </mouseicon>
+                </diagram>
+                <layoutmanager>
+                  <ddsxmlobj />
+                </layoutmanager>
+                <ddscontrol controlprogid="DdsShapes.DdsObjectManagedBridge" tooltip="Classes" left="4264" top="8336" logicalid="1" controlid="1" masterid="0" hint1="0" hint2="0" width="3852" height="5000" noresize="0" nomove="0" nodefaultattachpoints="0" autodrag="1" usedefaultiddshape="1" selectable="1" showselectionhandles="1" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0">
+                  <control>
+                    <ddsxmlobjectstreaminitwrapper binary="000e00000c0f000088130000" />
+                  </control>
+                  <layoutobject>
+                    <ddsxmlobj>
+                      <property name="LogicalObject" value="Classes" vartype="8" />
+                    </ddsxmlobj>
+                  </layoutobject>
+                  <shape groupshapeid="0" groupnode="0" />
+                </ddscontrol>
+                <ddscontrol controlprogid="DdsShapes.DdsObjectManagedBridge" tooltip="Students" left="9514" top="4944" logicalid="2" controlid="2" masterid="0" hint1="0" hint2="0" width="3196" height="2953" noresize="0" nomove="0" nodefaultattachpoints="0" autodrag="1" usedefaultiddshape="1" selectable="1" showselectionhandles="1" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0">
+                  <control>
+                    <ddsxmlobjectstreaminitwrapper binary="000e00007c0c0000890b0000" />
+                  </control>
+                  <layoutobject>
+                    <ddsxmlobj>
+                      <property name="LogicalObject" value="Students" vartype="8" />
+                    </ddsxmlobj>
+                  </layoutobject>
+                  <shape groupshapeid="0" groupnode="0" />
+                </ddscontrol>
+                <ddscontrol controlprogid="DdsShapes.DdsObjectManagedBridge" tooltip="Dates" left="16808" top="7131" logicalid="3" controlid="3" masterid="0" hint1="0" hint2="0" width="3651" height="5000" noresize="0" nomove="0" nodefaultattachpoints="0" autodrag="1" usedefaultiddshape="1" selectable="1" showselectionhandles="1" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0">
+                  <control>
+                    <ddsxmlobjectstreaminitwrapper binary="000e0000430e000088130000" />
+                  </control>
+                  <layoutobject>
+                    <ddsxmlobj>
+                      <property name="LogicalObject" value="Dates" vartype="8" />
+                    </ddsxmlobj>
+                  </layoutobject>
+                  <shape groupshapeid="0" groupnode="0" />
+                </ddscontrol>
+                <ddscontrol controlprogid="DdsShapes.DdsObjectManagedBridge" tooltip="FactEnrollments" left="10768" top="9341" logicalid="4" controlid="4" masterid="0" hint1="0" hint2="0" width="3683" height="2593" noresize="0" nomove="0" nodefaultattachpoints="0" autodrag="1" usedefaultiddshape="1" selectable="1" showselectionhandles="1" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0">
+                  <control>
+                    <ddsxmlobjectstreaminitwrapper binary="000e0000630e0000210a0000" />
+                  </control>
+                  <layoutobject>
+                    <ddsxmlobj>
+                      <property name="LogicalObject" value="FactEnrollments" vartype="8" />
+                    </ddsxmlobj>
+                  </layoutobject>
+                  <shape groupshapeid="0" groupnode="0" />
+                </ddscontrol>
+                <ddscontrol controlprogid="MSDDS.Polyline" left="10659" top="7398" logicalid="5" controlid="5" masterid="0" hint1="0" hint2="0" width="853" height="2243" noresize="0" nomove="0" nodefaultattachpoints="1" autodrag="0" usedefaultiddshape="0" selectable="1" showselectionhandles="0" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0">
+                  <control>
+                    <ddsxmlobj>
+                      <polyline endtypedst="6" endtypesrc="3" usercolor="0" linestyle="0" linerender="1" customendtypedstid="0" customendtypesrcid="0" adornsvisible="1" />
+                    </ddsxmlobj>
+                  </control>
+                  <layoutobject>
+                    <ddsxmlobj>
+                      <property name="LogicalObject" value="dataSet.Relations[FactEnrollments-Students]" vartype="8" />
+                      <property name="Virtual" value="0" vartype="11" />
+                      <property name="VisibleAP" value="0" vartype="3" />
+                    </ddsxmlobj>
+                  </layoutobject>
+                  <connector lineroutestyle="MSDDS.Rectilinear" sourceid="2" destid="4" sourceattachpoint="5" destattachpoint="0" segmenteditmode="0" bendpointeditmode="0" bendpointvisibility="0" relatedid="0" virtual="0">
+                    <point x="11112" y="7897" />
+                    <point x="11112" y="8619" />
+                    <point x="10959" y="8619" />
+                    <point x="10959" y="9341" />
+                  </connector>
+                </ddscontrol>
+                <ddscontrol controlprogid="MSDDS.Polyline" left="7816" top="9237" logicalid="6" controlid="6" masterid="0" hint1="0" hint2="0" width="3252" height="899" noresize="0" nomove="0" nodefaultattachpoints="1" autodrag="0" usedefaultiddshape="0" selectable="1" showselectionhandles="0" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0">
+                  <control>
+                    <ddsxmlobj>
+                      <polyline endtypedst="6" endtypesrc="3" usercolor="0" linestyle="0" linerender="1" customendtypedstid="0" customendtypesrcid="0" adornsvisible="1" />
+                    </ddsxmlobj>
+                  </control>
+                  <layoutobject>
+                    <ddsxmlobj>
+                      <property name="LogicalObject" value="dataSet.Relations[FactEnrollments-Classes]" vartype="8" />
+                      <property name="Virtual" value="0" vartype="11" />
+                      <property name="VisibleAP" value="0" vartype="3" />
+                    </ddsxmlobj>
+                  </layoutobject>
+                  <connector lineroutestyle="MSDDS.Rectilinear" sourceid="1" destid="4" sourceattachpoint="19" destattachpoint="14" segmenteditmode="0" bendpointeditmode="0" bendpointvisibility="0" relatedid="0" virtual="0">
+                    <point x="8116" y="9736" />
+                    <point x="9442" y="9736" />
+                    <point x="9442" y="9537" />
+                    <point x="10768" y="9537" />
+                  </connector>
+                </ddscontrol>
+                <ddscontrol controlprogid="MSDDS.Polyline" left="14151" top="9232" logicalid="7" controlid="7" masterid="0" hint1="0" hint2="0" width="2957" height="799" noresize="0" nomove="0" nodefaultattachpoints="1" autodrag="0" usedefaultiddshape="0" selectable="1" showselectionhandles="0" allownudging="1" isannotation="0" dontautolayout="0" groupcollapsed="0" tabstop="1" visible="1" snaptogrid="0">
+                  <control>
+                    <ddsxmlobj>
+                      <polyline endtypedst="6" endtypesrc="3" usercolor="0" linestyle="0" linerender="1" customendtypedstid="0" customendtypesrcid="0" adornsvisible="1" />
+                    </ddsxmlobj>
+                  </control>
+                  <layoutobject>
+                    <ddsxmlobj>
+                      <property name="LogicalObject" value="dataSet.Relations[FactEnrollments-Dates]" vartype="8" />
+                      <property name="Virtual" value="0" vartype="11" />
+                      <property name="VisibleAP" value="0" vartype="3" />
+                    </ddsxmlobj>
+                  </layoutobject>
+                  <connector lineroutestyle="MSDDS.Rectilinear" sourceid="3" destid="4" sourceattachpoint="22" destattachpoint="15" segmenteditmode="0" bendpointeditmode="0" bendpointvisibility="0" relatedid="0" virtual="0">
+                    <point x="16808" y="9631" />
+                    <point x="15630" y="9631" />
+                    <point x="15630" y="9537" />
+                    <point x="14451" y="9537" />
+                  </connector>
+                </ddscontrol>
+              </dds>
+</DiagramLayout>
+            <ShowRelationshipNames>False</ShowRelationshipNames>
+            <UseDiagramDefaultLayout>True</UseDiagramDefaultLayout>
+            <DiagramViewPortLeft>3254</DiagramViewPortLeft>
+            <DiagramViewPortTop>-56</DiagramViewPortTop>
+            <DiagramBoundingLeft>0</DiagramBoundingLeft>
+            <DiagramBoundingTop>0</DiagramBoundingTop>
+            <DiagramZoom>100</DiagramZoom>
+          </Diagram>
+        </Layouts>
+      </Value>
+    </Annotation>
+  </Annotations>
+  <DataSourceID>DW Student Enrollments</DataSourceID>
+  <Schema>
+    <xs:schema id="vStudentEnrollments" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop">
+      <xs:element name="vStudentEnrollments" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:design-time-name="108a77ab-2622-4d9e-9335-9651f8ef8427">
+        <xs:complexType>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="Classes" msprop:design-time-name="ccaceade-7962-4a6b-a1fb-f9ef5de30832" msprop:IsLogical="True" msprop:FriendlyName="Classes" msprop:DbTableName="Classes" msprop:TableType="View" msprop:Description="" msprop:QueryDefinition="SELECT ClassKey, ClassID, ClassName, ClassStartDate, ClassEndDate, ClassPriceCurrent, ClassEnrollmentMax, ClassroomID, ClassroomName, ClassroomSizeMax, ClassDepartmentID, ClassDepartmentName&#xD;&#xA;FROM  DimClasses&#xD;&#xA;WHERE (IsCurrent = 'Y')" msprop:QueryBuilder="SpecificQueryBuilder">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="ClassKey" msdata:ReadOnly="true" msprop:design-time-name="db38ce9c-c559-4c8a-882f-2596dcba21b4" msprop:DbColumnName="ClassKey" msprop:FriendlyName="ClassKey" type="xs:int" />
+                  <xs:element name="ClassID" msprop:design-time-name="ed94814f-85e0-4836-bc5e-4504ca98370b" msprop:DbColumnName="ClassID" msprop:FriendlyName="ClassID" type="xs:int" minOccurs="0" />
+                  <xs:element name="ClassName" msprop:design-time-name="eb6bf7f5-8df9-42c3-81ee-51a2417edbff" msprop:DbColumnName="ClassName" msprop:FriendlyName="ClassName" minOccurs="0">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="200" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="ClassStartDate" msprop:design-time-name="0496ae9b-bf8e-49bd-9634-8a11d1cc2c76" msprop:DbColumnName="ClassStartDate" msprop:FriendlyName="ClassStartDate" type="xs:dateTime" minOccurs="0" />
+                  <xs:element name="ClassEndDate" msprop:design-time-name="e030fe91-adc6-4dcc-9042-0a92f5e7e011" msprop:DbColumnName="ClassEndDate" msprop:FriendlyName="ClassEndDate" type="xs:dateTime" minOccurs="0" />
+                  <xs:element name="ClassPriceCurrent" msprop:design-time-name="12453a96-3761-4292-a4a1-e25e66ea399b" msprop:DbColumnName="ClassPriceCurrent" msprop:FriendlyName="ClassPriceCurrent" type="xs:decimal" minOccurs="0" />
+                  <xs:element name="ClassEnrollmentMax" msprop:design-time-name="e3fdfe4e-1f52-4eb1-bb95-52ac77b6ecab" msprop:DbColumnName="ClassEnrollmentMax" msprop:FriendlyName="ClassEnrollmentMax" type="xs:int" minOccurs="0" />
+                  <xs:element name="ClassroomID" msprop:design-time-name="4ebd741c-af9d-4588-8b2f-188da00c5316" msprop:DbColumnName="ClassroomID" msprop:FriendlyName="ClassroomID" type="xs:int" minOccurs="0" />
+                  <xs:element name="ClassroomName" msprop:design-time-name="c1a0d4c9-0a6e-497e-b1ce-b2cc5935e346" msprop:DbColumnName="ClassroomName" msprop:FriendlyName="ClassroomName" minOccurs="0">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="200" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="ClassroomSizeMax" msprop:design-time-name="540ffc79-abe3-44c0-8b7b-c3f03696d4a6" msprop:DbColumnName="ClassroomSizeMax" msprop:FriendlyName="ClassroomSizeMax" type="xs:int" minOccurs="0" />
+                  <xs:element name="ClassDepartmentID" msprop:design-time-name="0dc9006c-98e8-48ab-aa60-21ce62438c24" msprop:DbColumnName="ClassDepartmentID" msprop:FriendlyName="ClassDepartmentID" type="xs:int" minOccurs="0" />
+                  <xs:element name="ClassDepartmentName" msprop:design-time-name="ccbcad4c-3897-4356-9be6-fbbc0b92b35d" msprop:DbColumnName="ClassDepartmentName" msprop:FriendlyName="ClassDepartmentName" minOccurs="0">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="200" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="Students" msprop:design-time-name="dfe894b0-474e-4765-87f6-c6328488ab8a" msprop:IsLogical="True" msprop:FriendlyName="Students" msprop:DbTableName="Students" msprop:TableType="View" msprop:Description="" msprop:QueryDefinition="SELECT StudentKey, StudentID, StudentFullName, StudentFirstName, StudentLastName, StudentEmail&#xD;&#xA;FROM  DimStudents&#xD;&#xA;WHERE (IsCurrent = 'Y')" msprop:QueryBuilder="SpecificQueryBuilder">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="StudentKey" msdata:ReadOnly="true" msprop:design-time-name="026af801-a302-4f9c-88e7-3f120b39e5cf" msprop:DbColumnName="StudentKey" msprop:FriendlyName="StudentKey" type="xs:int" />
+                  <xs:element name="StudentID" msprop:design-time-name="34690adf-4591-44c3-80ef-543fd8db6c82" msprop:DbColumnName="StudentID" msprop:FriendlyName="StudentID" type="xs:int" minOccurs="0" />
+                  <xs:element name="StudentFullName" msprop:design-time-name="b5c26bc7-b5ba-4298-8e21-9d52a48a0ef0" msprop:DbColumnName="StudentFullName" msprop:FriendlyName="StudentFullName" minOccurs="0">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="400" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="StudentFirstName" msprop:design-time-name="d4cdada5-4799-46d3-9960-665a201c7af9" msprop:DbColumnName="StudentFirstName" msprop:FriendlyName="StudentFirstName" minOccurs="0">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="200" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="StudentLastName" msprop:design-time-name="dca88998-6858-4984-8429-ac3df8cbe448" msprop:DbColumnName="StudentLastName" msprop:FriendlyName="StudentLastName" minOccurs="0">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="200" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="StudentEmail" msprop:design-time-name="74fafdf5-e319-495d-a3c7-ed20f32f2e02" msprop:DbColumnName="StudentEmail" msprop:FriendlyName="StudentEmail" minOccurs="0">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="200" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="Dates" msprop:design-time-name="ab4fb95d-686a-4175-b51a-f75c9661a02f" msprop:IsLogical="True" msprop:FriendlyName="Dates" msprop:DbTableName="Dates" msprop:TableType="View" msprop:Description="" msprop:QueryDefinition="SELECT DateKey, Datetime, [Date], DateName, DateDayKey, DateDayName, DateMonthKey, DateMonthName, DateQuarterKey, DateQuarterName, DateQuarter, DateYearMonthKey, DateYearMonthName, DateYearKey, DateYearName, InsertDate&#xD;&#xA;FROM  DimDates" msprop:QueryBuilder="SpecificQueryBuilder">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="DateKey" msprop:design-time-name="08716715-f8e1-4605-b591-b25c9592995c" msprop:DbColumnName="DateKey" msprop:FriendlyName="DateKey" type="xs:int" minOccurs="0" />
+                  <xs:element name="Datetime" msprop:design-time-name="58b639f0-875d-4c59-a818-974cfa6c2c0f" msprop:DbColumnName="Datetime" msprop:FriendlyName="Datetime" type="xs:dateTime" minOccurs="0" />
+                  <xs:element name="Date" msprop:design-time-name="91a92d5a-1d09-4b4d-8408-3e1ca653ec4f" msprop:DbColumnName="Date" msprop:FriendlyName="Date" type="xs:dateTime" minOccurs="0" />
+                  <xs:element name="DateName" msprop:design-time-name="b51ed23a-24d6-4a0b-9b3c-53fed3d89cee" msprop:DbColumnName="DateName" msprop:FriendlyName="DateName" minOccurs="0">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="100" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="DateDayKey" msprop:design-time-name="1f94f9bb-db10-4140-a063-c7cee431e39c" msprop:DbColumnName="DateDayKey" msprop:FriendlyName="DateDayKey" type="xs:int" />
+                  <xs:element name="DateDayName" msprop:design-time-name="efe54703-62ee-4ad4-a1a9-75da85c3aa54" msprop:DbColumnName="DateDayName" msprop:FriendlyName="DateDayName" minOccurs="0">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="100" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="DateMonthKey" msprop:design-time-name="e2a69491-a4d4-48de-9aea-32465ab3e46e" msprop:DbColumnName="DateMonthKey" msprop:FriendlyName="DateMonthKey" type="xs:int" minOccurs="0" />
+                  <xs:element name="DateMonthName" msprop:design-time-name="8795c929-4702-442a-a5ec-0c47f8855d29" msprop:DbColumnName="DateMonthName" msprop:FriendlyName="DateMonthName" minOccurs="0">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="100" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="DateQuarterKey" msprop:design-time-name="fcbe727e-2f37-417a-82aa-787756a6969b" msprop:DbColumnName="DateQuarterKey" msprop:FriendlyName="DateQuarterKey" type="xs:int" minOccurs="0" />
+                  <xs:element name="DateQuarterName" msprop:design-time-name="683c9f99-9420-4a8a-86de-d65b81a48c30" msprop:DbColumnName="DateQuarterName" msprop:FriendlyName="DateQuarterName" minOccurs="0">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="100" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="DateQuarter" msprop:design-time-name="27b53496-6709-40f4-b5a6-4d8dffbba574" msprop:DbColumnName="DateQuarter" msprop:FriendlyName="DateQuarter" minOccurs="0">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="100" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="DateYearMonthKey" msprop:design-time-name="941b7d1f-b6aa-46d1-a6f3-4a47c2235f60" msprop:DbColumnName="DateYearMonthKey" msprop:FriendlyName="DateYearMonthKey" type="xs:int" minOccurs="0" />
+                  <xs:element name="DateYearMonthName" msprop:design-time-name="971ca2bb-ef6f-4bd4-87e9-4a6b59ae8a2e" msprop:DbColumnName="DateYearMonthName" msprop:FriendlyName="DateYearMonthName" minOccurs="0">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="100" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="DateYearKey" msprop:design-time-name="b5dc8572-3c43-48dd-8eca-6b7884b53403" msprop:DbColumnName="DateYearKey" msprop:FriendlyName="DateYearKey" type="xs:int" minOccurs="0" />
+                  <xs:element name="DateYearName" msprop:design-time-name="04b3fe81-c27d-49a5-8dd5-30a04d4f459d" msprop:DbColumnName="DateYearName" msprop:FriendlyName="DateYearName" minOccurs="0">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:maxLength value="100" />
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:element>
+                  <xs:element name="InsertDate" msprop:design-time-name="494baa8e-6199-435b-a3db-32a1e5e57ab6" msprop:DbColumnName="InsertDate" msprop:FriendlyName="InsertDate" type="xs:dateTime" minOccurs="0" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="FactEnrollments" msprop:design-time-name="62887da2-37b6-4009-a21e-190000d0be51" msprop:IsLogical="True" msprop:FriendlyName="FactEnrollments" msprop:DbTableName="FactEnrollments" msprop:TableType="View" msprop:Description="" msprop:QueryDefinition="SELECT EnrollmentID, EnrollmentDateKey, StudentKey, ClassKey, ActualEnrollmentPrice&#xD;&#xA;FROM  FactEnrollments" msprop:QueryBuilder="SpecificQueryBuilder">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="EnrollmentID" msprop:design-time-name="20636306-3405-4e32-b4b0-67e758e581fa" msprop:DbColumnName="EnrollmentID" msprop:FriendlyName="EnrollmentID" type="xs:int" />
+                  <xs:element name="EnrollmentDateKey" msprop:design-time-name="b9a9f431-ffbf-4332-b607-22258f0347f1" msprop:DbColumnName="EnrollmentDateKey" msprop:FriendlyName="EnrollmentDateKey" type="xs:int" />
+                  <xs:element name="StudentKey" msprop:design-time-name="50fcedc2-1cb2-4b25-8df6-bbd4bd783a6a" msprop:DbColumnName="StudentKey" msprop:FriendlyName="StudentKey" type="xs:int" />
+                  <xs:element name="ClassKey" msprop:design-time-name="31d4e87b-90c9-45ed-9e06-f915fb7e5622" msprop:DbColumnName="ClassKey" msprop:FriendlyName="ClassKey" type="xs:int" />
+                  <xs:element name="ActualEnrollmentPrice" msprop:design-time-name="58e6579a-4526-43f8-8d91-8577098c83ac" msprop:DbColumnName="ActualEnrollmentPrice" msprop:FriendlyName="ActualEnrollmentPrice" type="xs:decimal" minOccurs="0" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:choice>
+        </xs:complexType>
+        <xs:unique name="Constraint1" msprop:IsLogical="True" msdata:PrimaryKey="true">
+          <xs:selector xpath=".//Classes" />
+          <xs:field xpath="ClassKey" />
+        </xs:unique>
+        <xs:unique name="Students_Constraint1" msdata:ConstraintName="Constraint1" msprop:IsLogical="True" msdata:PrimaryKey="true">
+          <xs:selector xpath=".//Students" />
+          <xs:field xpath="StudentKey" />
+        </xs:unique>
+        <xs:unique name="Dates_Constraint1" msdata:ConstraintName="Constraint1" msprop:IsLogical="True" msdata:PrimaryKey="true">
+          <xs:selector xpath=".//Dates" />
+          <xs:field xpath="DateDayKey" />
+        </xs:unique>
+        <xs:unique name="FactEnrollments_Constraint1" msdata:ConstraintName="Constraint1" msprop:IsLogical="True" msdata:PrimaryKey="true">
+          <xs:selector xpath=".//FactEnrollments" />
+          <xs:field xpath="StudentKey" />
+          <xs:field xpath="EnrollmentDateKey" />
+          <xs:field xpath="ClassKey" />
+          <xs:field xpath="EnrollmentID" />
+        </xs:unique>
+      </xs:element>
+      <xs:annotation>
+        <xs:appinfo>
+          <msdata:Relationship name="FactEnrollments-Students" msdata:parent="Students" msdata:child="FactEnrollments" msdata:parentkey="StudentKey" msdata:childkey="StudentKey" msprop:IsLogical="True" msprop:Description="" />
+          <msdata:Relationship name="FactEnrollments-Classes" msdata:parent="Classes" msdata:child="FactEnrollments" msdata:parentkey="ClassKey" msdata:childkey="ClassKey" msprop:IsLogical="True" msprop:Description="" />
+          <msdata:Relationship name="FactEnrollments-Dates" msdata:parent="Dates" msdata:child="FactEnrollments" msdata:parentkey="DateKey" msdata:childkey="EnrollmentDateKey" msprop:IsLogical="True" msprop:Description="" />
+        </xs:appinfo>
+      </xs:annotation>
+    </xs:schema>
+    <vStudentEnrollments xmlns="" />
+  </Schema>
+</DataSourceView>
