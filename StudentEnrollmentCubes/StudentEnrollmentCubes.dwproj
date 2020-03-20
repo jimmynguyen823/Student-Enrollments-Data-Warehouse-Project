@@ -6,6 +6,18 @@
     <Name>StudentEnrollmentCubes.database</Name>
     <FullPath>StudentEnrollmentCubes.database</FullPath>
   </Database>
+  <Cubes>
+    <ProjectItem>
+      <Name>StudentEnrollmentCubes.cube</Name>
+      <FullPath>StudentEnrollmentCubes.cube</FullPath>
+      <Dependencies>
+        <ProjectItem>
+          <Name>StudentEnrollmentCubes.partitions</Name>
+          <FullPath>StudentEnrollmentCubes.partitions</FullPath>
+        </ProjectItem>
+      </Dependencies>
+    </ProjectItem>
+  </Cubes>
   <Dimensions>
     <ProjectItem>
       <Name>Classes.dim</Name>
@@ -14,6 +26,14 @@
     <ProjectItem>
       <Name>Students.dim</Name>
       <FullPath>Students.dim</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>Dates.dim</Name>
+      <FullPath>Dates.dim</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>EnrollmentIDs.dim</Name>
+      <FullPath>EnrollmentIDs.dim</FullPath>
     </ProjectItem>
   </Dimensions>
   <DataSources>
@@ -24,12 +44,12 @@
   </DataSources>
   <DataSourceViews>
     <ProjectItem>
-      <Name>vDWStudentEnrollments.dsv</Name>
-      <FullPath>vDWStudentEnrollments.dsv</FullPath>
-    </ProjectItem>
-    <ProjectItem>
       <Name>vStudentEnrollments.dsv</Name>
       <FullPath>vStudentEnrollments.dsv</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>vDWStudentEnrollments.dsv</Name>
+      <FullPath>vDWStudentEnrollments.dsv</FullPath>
     </ProjectItem>
   </DataSourceViews>
   <Configurations>
