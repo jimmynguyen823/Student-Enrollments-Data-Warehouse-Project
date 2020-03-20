@@ -91,43 +91,6 @@ WHILE @DateInProcess <= @EndDate
 	 -- Add a day and loop again
 	 Set @DateInProcess = DateAdd(d, 1, @DateInProcess);
 	 End
- 
--- 2e) Add additional lookup values to DimDates
-INSERT INTO DWStudentEnrollments.dbo.DimDates(
-	   DateKey
-	 , FullDateTime
-	 , [Date]
-	 , [DateName]
-	 , MonthKey
-	 , [MonthName]
-	 , QuarterKey
-	 , [QuarterName]
-	 , YearKey
-	 , [YearName]
-	 )
-SELECT
-    [DateKey] = -1
-  ,	[FullDatetime] = '1/1/1900'
-  , [Date] = '1/1/1900'
-  , [DateName] = Cast('Unknown Date' as nVarchar(100) )
-  , [MonthKey] = -1
-  , [MonthName] = Cast('Unknown Month' as nVarchar(50) )
-  , [QuarterKey] =  -1
-  , [QuarterName] = Cast('Unknown Quarter' as nVarchar(50) )
-  , [YearKey] = -1
-  , [YearName] = Cast('Unknown Year' as nVarchar(50) )
-  UNION
-SELECT
-    [DateKey] = -2
-  ,	[FullDatetime] = '1/1/1900'
-  , [Date] = '1/1/1900'
-  , [DateName] = Cast('Corrupt Date' as nVarchar(50) )
-  , [MonthKey] = -2
-  , [MonthName] = Cast('Corrupt Month' as nVarchar(50) )
-  , [QuarterKey] =  -2
-  , [QuarterName] = Cast('Corrupt Quarter' as nVarchar(50) )
-  , [YearKey] = -2
-  , [YearName] = Cast('Corrupt Year' as nVarchar(50) )
 END
 GO
 

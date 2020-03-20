@@ -3,6 +3,365 @@
   "compatibilityLevel": 1400,
   "model": {
     "culture": "en-US",
+    "dataSources": [
+      {
+        "type": "structured",
+        "name": "SQL/LAPTOP-JIMMY823\\SQL2019;DWStudentEnrollments",
+        "connectionDetails": {
+          "protocol": "tds",
+          "address": {
+            "server": "LAPTOP-JIMMY823\\SQL2019",
+            "database": "DWStudentEnrollments"
+          },
+          "authentication": null,
+          "query": null
+        },
+        "options": {},
+        "credential": {
+          "AuthenticationKind": "Windows",
+          "kind": "SQL",
+          "path": "laptop-jimmy823\\sql2019;DWStudentEnrollments",
+          "Username": "LAPTOP-JIMMY823\\Jimmy Nguyen",
+          "EncryptConnection": false
+        }
+      }
+    ],
+    "tables": [
+      {
+        "name": "Classes",
+        "columns": [
+          {
+            "name": "ClassKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "isUnique": true,
+            "sourceColumn": "ClassKey"
+          },
+          {
+            "name": "ClassID",
+            "dataType": "int64",
+            "sourceColumn": "ClassID"
+          },
+          {
+            "name": "ClassName",
+            "dataType": "string",
+            "sourceColumn": "ClassName"
+          },
+          {
+            "name": "ClassStartDate",
+            "dataType": "dateTime",
+            "sourceColumn": "ClassStartDate"
+          },
+          {
+            "name": "ClassEndDate",
+            "dataType": "dateTime",
+            "sourceColumn": "ClassEndDate"
+          },
+          {
+            "name": "ClassPriceCurrent",
+            "dataType": "double",
+            "sourceColumn": "ClassPriceCurrent"
+          },
+          {
+            "name": "ClassEnrollmentMax",
+            "dataType": "int64",
+            "sourceColumn": "ClassEnrollmentMax"
+          },
+          {
+            "name": "ClassroomID",
+            "dataType": "int64",
+            "sourceColumn": "ClassroomID"
+          },
+          {
+            "name": "ClassroomName",
+            "dataType": "string",
+            "sourceColumn": "ClassroomName"
+          },
+          {
+            "name": "ClassroomSizeMax",
+            "dataType": "int64",
+            "sourceColumn": "ClassroomSizeMax"
+          },
+          {
+            "name": "ClassDepartmentID",
+            "dataType": "int64",
+            "sourceColumn": "ClassDepartmentID"
+          },
+          {
+            "name": "ClassDepartmentName",
+            "dataType": "string",
+            "sourceColumn": "ClassDepartmentName"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/LAPTOP-JIMMY823\\SQL2019;DWStudentEnrollments\",",
+                "    dbo_vTabularDimClasses = Source{[Schema=\"dbo\",Item=\"vTabularDimClasses\"]}[Data]",
+                "in",
+                "    dbo_vTabularDimClasses"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Dates",
+        "dataCategory": "Time",
+        "columns": [
+          {
+            "name": "DateKey",
+            "dataType": "dateTime",
+            "isHidden": true,
+            "isUnique": true,
+            "isKey": true,
+            "sourceColumn": "DateKey"
+          },
+          {
+            "name": "FullDateTime",
+            "dataType": "dateTime",
+            "isHidden": true,
+            "sourceColumn": "FullDateTime"
+          },
+          {
+            "name": "Date",
+            "dataType": "dateTime",
+            "isHidden": true,
+            "sourceColumn": "Date"
+          },
+          {
+            "name": "DateName",
+            "dataType": "string",
+            "sourceColumn": "DateName"
+          },
+          {
+            "name": "MonthKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "MonthKey"
+          },
+          {
+            "name": "MonthName",
+            "dataType": "string",
+            "sourceColumn": "MonthName"
+          },
+          {
+            "name": "QuarterKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "QuarterKey"
+          },
+          {
+            "name": "QuarterName",
+            "dataType": "string",
+            "sourceColumn": "QuarterName"
+          },
+          {
+            "name": "YearKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "YearKey"
+          },
+          {
+            "name": "YearName",
+            "dataType": "string",
+            "sourceColumn": "YearName"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/LAPTOP-JIMMY823\\SQL2019;DWStudentEnrollments\",",
+                "    dbo_vTabularDimDates = Source{[Schema=\"dbo\",Item=\"vTabularDimDates\"]}[Data]",
+                "in",
+                "    dbo_vTabularDimDates"
+              ]
+            }
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Year-Qtr-Month-Date",
+            "levels": [
+              {
+                "name": "YearName",
+                "ordinal": 0,
+                "column": "YearName"
+              },
+              {
+                "name": "QuarterName",
+                "ordinal": 1,
+                "column": "QuarterName"
+              },
+              {
+                "name": "MonthName",
+                "ordinal": 2,
+                "column": "MonthName"
+              },
+              {
+                "name": "DateName",
+                "ordinal": 3,
+                "column": "DateName"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Students",
+        "columns": [
+          {
+            "name": "StudentKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "isUnique": true,
+            "sourceColumn": "StudentKey"
+          },
+          {
+            "name": "StudentID",
+            "dataType": "int64",
+            "sourceColumn": "StudentID"
+          },
+          {
+            "name": "StudentFullName",
+            "dataType": "string",
+            "sourceColumn": "StudentFullName"
+          },
+          {
+            "name": "StudentFirstName",
+            "dataType": "string",
+            "sourceColumn": "StudentFirstName"
+          },
+          {
+            "name": "StudentLastName",
+            "dataType": "string",
+            "sourceColumn": "StudentLastName"
+          },
+          {
+            "name": "StudentEmail",
+            "dataType": "string",
+            "sourceColumn": "StudentEmail"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/LAPTOP-JIMMY823\\SQL2019;DWStudentEnrollments\",",
+                "    dbo_vTabularDimStudents = Source{[Schema=\"dbo\",Item=\"vTabularDimStudents\"]}[Data]",
+                "in",
+                "    dbo_vTabularDimStudents"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "EnrollmentsID",
+        "columns": [
+          {
+            "name": "EnrollmentID",
+            "dataType": "int64",
+            "isUnique": true,
+            "sourceColumn": "EnrollmentID"
+          },
+          {
+            "name": "EnrollmentDateKey",
+            "dataType": "dateTime",
+            "isHidden": true,
+            "sourceColumn": "EnrollmentDateKey"
+          },
+          {
+            "name": "StudentKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "StudentKey"
+          },
+          {
+            "name": "ClassKey",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "ClassKey"
+          },
+          {
+            "name": "ActualEnrollmentPrice",
+            "dataType": "double",
+            "isHidden": true,
+            "sourceColumn": "ActualEnrollmentPrice"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/LAPTOP-JIMMY823\\SQL2019;DWStudentEnrollments\",",
+                "    dbo_vTabularFactEnrollments = Source{[Schema=\"dbo\",Item=\"vTabularFactEnrollments\"]}[Data]",
+                "in",
+                "    dbo_vTabularFactEnrollments"
+              ]
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "EnrollmentDollars",
+            "expression": "SUM(EnrollmentsID[ActualEnrollmentPrice])",
+            "formatString": "\\$#,0.00;(\\$#,0.00);\\$#,0.00",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1033\" DisplayName=\"$ English (United States)\" Symbol=\"$\" PositivePattern=\"0\" NegativePattern=\"0\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "EnrollmentCounts",
+            "expression": "DISTINCTCOUNT(EnrollmentsID[EnrollmentID])"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "7bb19bc3-93d4-47f1-8021-bf578ba9688e",
+        "fromTable": "EnrollmentsID",
+        "fromColumn": "ClassKey",
+        "toTable": "Classes",
+        "toColumn": "ClassKey"
+      },
+      {
+        "name": "a8d3d1eb-1f2b-44f0-aef3-bb862b8fc741",
+        "fromTable": "EnrollmentsID",
+        "fromColumn": "StudentKey",
+        "toTable": "Students",
+        "toColumn": "StudentKey"
+      },
+      {
+        "name": "2d6d8953-4274-4877-9735-d53a1f9f4e4c",
+        "fromTable": "EnrollmentsID",
+        "fromColumn": "EnrollmentDateKey",
+        "toTable": "Dates",
+        "toColumn": "DateKey"
+      }
+    ],
     "annotations": [
       {
         "name": "ClientCompatibilityLevel",

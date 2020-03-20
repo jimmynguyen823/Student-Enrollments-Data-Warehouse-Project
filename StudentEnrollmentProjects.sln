@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQLScripts", "SQLScripts", 
 		SQLScripts\0-Investigating Data Techniques.sql = SQLScripts\0-Investigating Data Techniques.sql
 		SQLScripts\1-Create the DWStudentEnrollments database.sql = SQLScripts\1-Create the DWStudentEnrollments database.sql
 		SQLScripts\2-Perform the ETL process.sql = SQLScripts\2-Perform the ETL process.sql
+		SQLScripts\3-ETLViewsForTabluarModel.sql = SQLScripts\3-ETLViewsForTabluarModel.sql
 	EndProjectSection
 EndProject
 Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "StudentEnrollmentsETL", "StudentEnrollmentsETL\StudentEnrollmentsETL.dtproj", "{480D7092-DCC6-488F-89BD-AA60455EF3E6}"

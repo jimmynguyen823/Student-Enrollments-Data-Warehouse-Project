@@ -12,16 +12,65 @@ USE DWStudentEnrollments;
 Go
 
 -- Dimension Tables --
---Create or Alter View vTabularDimStudents
---go
---Create or Alter View vTabularDimClasses
---go
---Create or Alter View vTabularDimDates 
---go
+Create or Alter View vTabularDimStudents
+AS
+SELECT 
+	 StudentKey
+	,StudentID
+	,StudentFullName
+	,StudentFirstName
+	,StudentLastName
+	,StudentEmail
+FROM DWStudentEnrollments.dbo.DimStudents
+WHERE IsCurrent = 'Y'
+GO
+
+Create or Alter View vTabularDimClasses
+AS
+SELECT 
+	 ClassKey
+	,ClassID
+	,ClassName
+	,ClassStartDate
+	,ClassEndDate
+	,ClassPriceCurrent
+	,ClassEnrollmentMax
+	,ClassroomID
+	,ClassroomName
+	,ClassroomSizeMax
+	,ClassDepartmentID
+	,ClassDepartmentName
+FROM DWStudentEnrollments.dbo.DimClasses
+WHERE IsCurrent = 'Y'
+GO
+
+Create or Alter View vTabularDimDates 
+AS
+SELECT 
+	Convert(date, Cast([DateKey] as char(8)), 110)   AS DateKey
+	,FullDateTime
+	,[Date]
+	,[DateName]
+	,MonthKey
+	,[MonthName]
+	,QuarterKey
+	,QuarterName
+	,YearKey
+	,YearName
+FROM DWStudentEnrollments.dbo.DimDates
+GO
 
 -- Fact Table --
---Create or Alter View vTabularFactEnrollments 
---go
+Create or Alter View vTabularFactEnrollments 
+AS
+SELECT 
+	EnrollmentID
+	,Convert(date, Cast([EnrollmentDateKey] as char(8)), 110) AS EnrollmentDateKey
+	,StudentKey
+	,ClassKey
+	,ActualEnrollmentPrice
+FROM DWStudentEnrollments.dbo.FactEnrollments
+GO
 
 
 Select * from vTabularDimStudents
