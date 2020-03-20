@@ -12,7 +12,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Development' ">
     <OutputPath>bin\</OutputPath>
-    <DeploymentServerName>localhost</DeploymentServerName>
+    <DeploymentServerName>LAPTOP-JIMMY823\SQL2019TABULAR</DeploymentServerName>
     <DeploymentServerEdition>Developer</DeploymentServerEdition>
     <DeploymentServerVersion>Unknown</DeploymentServerVersion>
     <DeploymentServerDatabase>StudentEnrollmentTabularModel</DeploymentServerDatabase>
