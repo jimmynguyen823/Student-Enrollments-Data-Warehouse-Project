@@ -6,7 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{FDCF9AD1-639D-4FBD-9D55-AA75336240FC}"
 	ProjectSection(SolutionItems) = preProject
 		Documents\BI Concepts_Planning_Implementation_Project.docx = Documents\BI Concepts_Planning_Implementation_Project.docx
+		Documents\Document DB Image.docx = Documents\Document DB Image.docx
 		Documents\ERD For DWStudentEnrollments.vsdx = Documents\ERD For DWStudentEnrollments.vsdx
+		Documents\LessonsLearned.docx = Documents\LessonsLearned.docx
 		Documents\MetaDataWorkSheet.xlsx = Documents\MetaDataWorkSheet.xlsx
 	EndProjectSection
 EndProject
@@ -16,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQLScripts", "SQLScripts", 
 		SQLScripts\1-Create the DWStudentEnrollments database.sql = SQLScripts\1-Create the DWStudentEnrollments database.sql
 		SQLScripts\2-Perform the ETL process.sql = SQLScripts\2-Perform the ETL process.sql
 		SQLScripts\3-ETLViewsForTabluarModel.sql = SQLScripts\3-ETLViewsForTabluarModel.sql
+		SQLScripts\4-ETL Views for DocumentDB.sql = SQLScripts\4-ETL Views for DocumentDB.sql
+		SQLScripts\5- Report View for DWStudentEnrollments.sql = SQLScripts\5- Report View for DWStudentEnrollments.sql
 	EndProjectSection
 EndProject
 Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "StudentEnrollmentsETL", "StudentEnrollmentsETL\StudentEnrollmentsETL.dtproj", "{480D7092-DCC6-488F-89BD-AA60455EF3E6}"
@@ -23,6 +27,11 @@ EndProject
 Project("{D2ABAB84-BF74-430A-B69E-9DC6D40DDA17}") = "StudentEnrollmentCubes", "StudentEnrollmentCubes\StudentEnrollmentCubes.dwproj", "{36B9075A-DA30-4BE3-AA59-3A128BF1AAD3}"
 EndProject
 Project("{6870E480-7721-4708-BFB8-9AE898AA21B3}") = "StudentEnrollmentTabularModel", "StudentEnrollmentTabularModel\StudentEnrollmentTabularModel.smproj", "{8CE414BB-95B2-4C99-9E03-51BA72086E22}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reports", "Reports", "{A7B25178-8A29-41BC-88BB-31674D9B5AA2}"
+	ProjectSection(SolutionItems) = preProject
+		Reports\Student Enrollment Reports.xlsx = Reports\Student Enrollment Reports.xlsx
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

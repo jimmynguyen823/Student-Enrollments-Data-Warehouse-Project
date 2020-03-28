@@ -1,0 +1,4 @@
+﻿EnrollmentID,FullDateTime,Date,Month,Quarter,Year,ClassID,Course,DepartmentID,Department,ClassStartDate,ClassEndDate,CurrentCoursePrice,ClassEnrollmentMax,ClassroomID,Classroom,MaxClassroomSize,StudentID,StudentFullName,StudentEmail,EnrollmentsPerCourse,CourseEnrollmentLevelKPI,ActualEnrollmentPrice
+1,1/1/2020,Wednesday  01-01-2020,1-Jan,Qtr1 - 2020,2020,1,CSharp Level 1,1,ComputerScience,1/1/2020,1/4/2020,499,16,1,W201,20,1,Bob Smith,BSmith@Google.com,2,1,499
+2,1/1/2020,Wednesday  01-01-2020,1-Jan,Qtr1 - 2020,2020,1,CSharp Level 1,1,ComputerScience,1/1/2020,1/4/2020,499,16,1,W201,20,2,Sue Jones,SueJones@Hotmail.com,2,1,499
+3,1/2/2020,Thursday  01-02-2020,1-Jan,Qtr1 - 2020,2020,2,CSharp Level 2,1,ComputerScience,2/1/2020,2/4/2020,499,16,2,W202,30,2,Sue Jones,SueJones@Hotmail.com,1,1,399
